@@ -99,3 +99,49 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+auto
+# Add any directories, files, or patterns you don't want to be tracked by version control
+# For Haskell                        
+*.hi                                 
+*.o                                  
+dist                                 
+cabal.sandbox.config                 
+.cabal-sandbox                       
+ssl.csr                              
+ssl.key                              
+ssl.crt                              
+client_session_key.aes               
+.DS_Store                            
+test.config                          
+.stack-work                          
+.cabal-sandbox.bak                   
+                                     
+## temp stack.yaml                   
+stack-tmp.yaml                       
+                                     
+                                     
+# For VS Code                        
+                                     
+.vscode                              
+TEST                                 
+test                                 
+                                     
+\#*\#                                
+.markdown-preview.html               
+.\#*                                 
+*~                                   
+.ignore                              
+                                     
+                                     
+*.lhs~                               
+
+
+# For LaTeX
+*.aux
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.toc
