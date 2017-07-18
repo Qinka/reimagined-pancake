@@ -1,2 +1,2 @@
 # reimagined-pancake
-Some toy played with nao_red
+Some toys played with nao_red
