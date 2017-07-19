@@ -2,7 +2,7 @@
 
 set -e # error -> exit(1)
 
-if [ -n "$IS_DOCKER" && -n "$TARGET" && -n "$EXECUTABLE" ]; then
+if [ -n "$IS_DOCKER" ] && [ -n "$TARGET" ] && [ -n "$EXECUTABLE" ]; then
     echo build and update the docker image
     echo
     echo setup target NAME TAG

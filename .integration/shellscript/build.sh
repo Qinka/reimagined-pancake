@@ -17,6 +17,6 @@ if [ -n "$TARGET" ]; then
     export O3FLAG=' --ghc-options -O3 '
     echo
     echo run stack install
-    stack install $TARGET $TARGER_FLAG $STACKFILE $O3FLAG $LLVMFLAG
+    stack install $TARGET $TARGET_FLAG $STACKFILE $O3FLAG $LLVMFLAG
 fi
 
