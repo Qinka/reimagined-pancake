@@ -18,6 +18,7 @@ if [ -n "$IS_DOCKER" ] && [ -n "$TARGET" ] && [ -n "$EXECUTABLE" ]; then
     sudo cp $TRAVIS_BUILD_DIR/.integration/docker/Dockerfile docker.tmp
     sudo cp $TRAVIS_BUILD_DIR/.integration/docker/entrypoint.sh docker.tmp
     echo build docker image
+    cd docker.tmp
     docker build -t $IMAGE:$TAG .
     docker push $IMAGE
 fi
