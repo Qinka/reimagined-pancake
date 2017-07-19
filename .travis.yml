@@ -1,0 +1,37 @@
+# The config of Travis
+
+#to use ubuntu 14.04
+sudo: required
+dist: trusty
+
+# setting cache
+cache:
+  - $HOME/.stack
+# the matrix of settings
+matrix:
+  include:
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGER=nao_classify_server TARGER_FLAG='--flag nao-classify-server:decision-tree' TARGER_NAME=-dt EXECUTABLE=nao_classify_server LLVM=3.7
+      addons:
+        apt:
+          sources:
+            - hvr-ghc
+          packages:
+            - ghc-8.0.2
+            - curl
+            - wget
+
+# using docker
+services:
+  - docker
+
+# pre-install
+before_install:
+  - source $TRAVIS_BUILD_DIR/.integration/ShellScript/before.sh
+
+# build
+script:
+  - source $TRAVIS_BUILD_DIR/.integration/ShellScript/build.sh
+
+# update docker image
+after_success:
+  - source $TRAVIS_BUILD_DIR/.integration/ShellScript/update.sh
