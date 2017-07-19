@@ -57,8 +57,9 @@ label = fst
 Find out which label belongs to the unlabeled set
 \begin{code}
 decide :: (Ord a, Eq a)
-          => DecisionTree a    b -- ^ decision tree
-          -> Unlabeled    a -> b -- ^ unlabeled one
+          => DecisionTree a b -- ^ decision tree
+          -> Unlabeled    a   -- ^ unlabeled on
+          ->                b 
 decide (DTLeaf b)  _        = b                            -- we reached a Leaf, done
 decide  DTNode{..} unlabeled = decide (dtnKids `safeLookup` v) unlabeled -- we're in a node, walk down
   where v = getValue unlabeled dtnAttr

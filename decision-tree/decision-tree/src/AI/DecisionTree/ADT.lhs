@@ -70,7 +70,7 @@ instance Show (Attr a) where
 
 The data with out label, or say what we will to classify.
 \begin{code}
-data Unlabeled a = Unlabeled { uInstanceName :: String            -- ^ the name of this instance
+data Unlabeled a = Unlabeled { uInstanceName :: String       -- ^ the name of this instance
                              , uAttributes   :: [(Attr a,a)] -- ^ the attributes of instance
                              } deriving Show
 \end{code}
