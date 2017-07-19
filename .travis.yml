@@ -26,12 +26,12 @@ services:
 
 # pre-install
 before_install:
-  - source $TRAVIS_BUILD_DIR/.integration/ShellScript/before.sh
+  - source $TRAVIS_BUILD_DIR/.integration/shellscript/before.sh
 
 # build
 script:
-  - source $TRAVIS_BUILD_DIR/.integration/ShellScript/build.sh
+  - source $TRAVIS_BUILD_DIR/.integration/shellscript/build.sh
 
 # update docker image
 after_success:
-  - source $TRAVIS_BUILD_DIR/.integration/ShellScript/update.sh
+  - source $TRAVIS_BUILD_DIR/.integration/shellscript/update.sh
