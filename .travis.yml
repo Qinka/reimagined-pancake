@@ -10,7 +10,7 @@ cache:
 # the matrix of settings
 matrix:
   include:
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao_classify_server TARGET_FLAG='--flag nao-classify-server:decision-tree' TARGET_NAME=-dt EXECUTABLE=nao_classify_server LLVM=3.7 SUDO=sudo
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:decision-tree' TARGET_NAME=-dt EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo
       addons:
         apt:
           sources:
