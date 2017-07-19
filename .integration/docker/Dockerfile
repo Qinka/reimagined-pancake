@@ -5,4 +5,4 @@ RUN apt update && apt install -y libgmp10 curl
 ADD bin /usr/bin
 COPY entrypoint.sh entrypoint
 ENTRYPOINT ["/entrypoint"]
-EXPORT 3000
+EXPOSE 3000
