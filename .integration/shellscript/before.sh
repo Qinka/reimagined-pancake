@@ -45,3 +45,4 @@ travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wild
 echo setting up ghc
 stack config set system-ghc --global true
 stack path --programs
+true

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e error -> exit(1)
+set -e # error -> exit(1)
 
 if [ -n "$TARGET" ]; then
     echo output ghc version
