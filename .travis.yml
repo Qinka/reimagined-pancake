@@ -34,4 +34,4 @@ script:
 
 # update docker image
 after_success:
-  - source $TRAVIS_BUILD_DIR/.integration/shellscript/update.sh
+  - source $TRAVIS_BUILD_DIR/.integration/shellscript/after.sh
