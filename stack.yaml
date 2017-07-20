@@ -15,7 +15,7 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: lts-8.23
+resolver: nightly-2017-07-20
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -39,9 +39,14 @@ packages:
 - decision-tree/decision-tree
 - decision-tree/train-decision-tree
 - nao_classify_server
+- knn
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
-extra-deps: []
+extra-deps:
+- accelerate-llvm-1.0.0.0
+- accelerate-llvm-native-1.0.0.0
+- llvm-hs-4.0.1.0
+- llvm-hs-pure-4.0.0.0
 
 # Override default flag values for local packages and extra-deps
 flags: {}

@@ -19,6 +19,15 @@ matrix:
             - ghc-8.0.2
             - curl
             - wget
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_NAME=-display EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo
+      addons:
+        apt:
+          sources:
+            - hvr-ghc
+          packages:
+            - ghc-8.0.2
+            - curl
+            - wget
 
 # using docker
 services:

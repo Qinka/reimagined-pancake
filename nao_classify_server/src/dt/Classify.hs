@@ -9,6 +9,7 @@ import           Yesod.Core
 
 data Classify = Classify (DecisionTree Bool Bool)  deriving Show
 deriveJSON defaultOptions ''Classify
+
 classify :: Classify -> Int -> Bool -> Bool -> IO Bool
 classify (Classify dt) age smile gender = do
   print (age,smile,gender)
