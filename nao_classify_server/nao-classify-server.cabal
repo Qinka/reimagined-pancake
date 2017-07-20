@@ -45,14 +45,14 @@ executable nao-classify-server
   if !flag(decision-tree) &&  (flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx))
     hs-source-dirs:   src/knn
     build-depends:    knn
-    other-modules:  Accelerate
+    other-modules:    Accelerate
     if  flag(knn-llvm-ptx) && !flag(knn-llvm-native)
       hs-source-dirs: src/knn/llvm/ptx
       build-depends:  accelerate-llvm-ptx >= 1
     if !flag(knn-llvm-ptx) &&  flag(knn-llvm-native)
       hs-source-dirs: src/knn/llvm/native
       build-depends:  accelerate-llvm-native >= 1
-    if  flag(knn-llvm-ptx) &&  flag(knn-llvm-native)      
+    if !flag(knn-llvm-ptx) && !flag(knn-llvm-native)      
       hs-source-dirs: src/knn/i
       build-depends:  accelerate >= 1
   if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx))
