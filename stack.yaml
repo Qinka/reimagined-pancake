@@ -40,6 +40,8 @@ packages:
 - decision-tree/train-decision-tree
 - nao_classify_server
 - knn
+- svm/Simple-SVM
+- svm/Simple-SVM/bindings-svm
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
@@ -47,6 +49,7 @@ extra-deps:
 - accelerate-llvm-native-1.0.0.0
 - llvm-hs-4.0.1.0
 - llvm-hs-pure-4.0.0.0
+
 
 # Override default flag values for local packages and extra-deps
 flags: {}

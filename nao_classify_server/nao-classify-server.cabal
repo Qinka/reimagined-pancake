@@ -27,6 +27,9 @@ flag knn-llvm-native
 flag knn-llvm-ptx
      description: Use knn (with accelerate-llvm-ptx)
      default: False
+flag svm
+     description: Use svm
+     default: False
                      
 executable nao-classify-server
   main-is:             Main.hs
@@ -39,10 +42,10 @@ executable nao-classify-server
                      , bytestring
   hs-source-dirs:      src
   default-language:    Haskell2010
-  if  flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx))
+  if  flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm)
     hs-source-dirs:   src/dt
     build-depends:    decision-tree
-  if !flag(decision-tree) &&  (flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx))
+  if !flag(decision-tree) &&  (flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm)
     hs-source-dirs:   src/knn
     build-depends:    knn
     other-modules:    Accelerate
@@ -55,6 +58,9 @@ executable nao-classify-server
     if !flag(knn-llvm-ptx) && !flag(knn-llvm-native)      
       hs-source-dirs: src/knn/i
       build-depends:  accelerate >= 1
-  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx))
+  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) &&  flag(svm)
+    hs-source-dirs:   src/svm
+    build-depends:    svm-simple == 3.22
+  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm)
     hs-source-dirs:   src/display
   
