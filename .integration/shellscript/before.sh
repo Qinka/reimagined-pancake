@@ -63,14 +63,14 @@ if [ x"$TARGET_NAME" = x"-knn-llvm-native" ]; then
     echo
     echo Install knn with llvm depends
     echo
-    ${SUDO} apt install llvm-4.0
+    ${SUDO} apt install -y llvm-4.0
 elif [ x"$TARGET_NAME" = x"-knn-llvm-ptx" ]; then
     echo
     echo Install knn with cuda depends
     echo
-    ${SUDO} apt install llvm-4.0
+    ${SUDO} apt install -y llvm-4.0
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
     ${SUDO} dpkg -i cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
     ${SUDO} apt update
-    ${SUDO} apt install cuda nvidia-cuda-dev nvidia-cuda-toolkit
+    ${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
 fi
