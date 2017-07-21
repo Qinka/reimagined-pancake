@@ -1,8 +1,8 @@
 # build
-FROM index.docker.io/library/cuda:8.0
+FROM index.docker.io/library/nvidia/cuda:8.0
 MAINTAINER qinka <me@qinka.pro>
 RUN apt update && apt install -y libgmp10 curl
-RUN curl http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+RUN curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN echo deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-4.0 main > /etc/apt/sources.list.d/llvm.list
 RUN apt update && apt install -y llvm-4.0
 ADD bin /usr/bin
