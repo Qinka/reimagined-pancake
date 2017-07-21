@@ -49,6 +49,16 @@ true
 ### END ###
 
 ### SP  ###
+export TMP_PWD=`pwd`
+cd $TRAVIS_BUILD_DIR/svm
+git clone https://github.com/Qinka/Simple-SVM.git
+cd Simple-SVM
+git clone https://github.com/Qinka/bindings-svm.git
+cd bindings-svm
+git clone https://github.com/Qinka/libsvm.git
+cd $TMP_PWD
+export TMP_PWD=
+
 if [ x"$TARGET_NAME" = x"-knn-llvm-native" ]; then
     echo
     echo Install knn with llvm depends
@@ -63,16 +73,4 @@ elif [ x"$TARGET_NAME" = x"-knn-llvm-ptx" ]; then
     ${SUDO} dpkg -i cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
     ${SUDO} apt update
     ${SUDO} apt install cuda nvidia-cuda-dev nvidia-cuda-toolkit
-elif [ x"$TARGET_NAME" = x"-svm" ]; then
-    export TMP_PWD=`pwd`
-    cd $TRAVIS_BUILD_DIR/svm
-    git clone https://github.com/Qinka/Simple-SVM.git
-    cd Simple-SVM
-    git clone https://github.com/Qinka/bindings-svm.git
-    cd bindings-svm
-    git clone https://github.com/Qinka/libsvm.git
-    cd $TMP_PWD
-    export TMP_PWD=
 fi
-    
-    
