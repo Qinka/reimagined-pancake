@@ -47,6 +47,7 @@ packages:
 extra-deps:
 - accelerate-llvm-1.0.0.0
 - accelerate-llvm-native-1.0.0.0
+- accelerate-llvm-ptx-1.0.0.1
 - llvm-hs-4.0.1.0
 - llvm-hs-pure-4.0.0.0
 
