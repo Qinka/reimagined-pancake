@@ -28,7 +28,43 @@ matrix:
             - ghc-8.0.2
             - curl
             - wget
-
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:-knn' TARGET_NAME=-knn EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo
+      addons:
+        apt:
+          sources:
+            - hvr-ghc
+          packages:
+            - ghc-8.0.2
+            - curl
+            - wget
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:knn-llvm-native' TARGET_NAME=-knn-llvm-native EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo
+      addons:
+        apt:
+          sources:
+            - hvr-ghc
+          packages:
+            - ghc-8.0.2
+            - curl
+            - wget
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:knn-llvm-ptx' TARGET_NAME=-knn-llvm-ptx EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo
+      addons:
+        apt:
+          sources:
+            - hvr-ghc
+          packages:
+            - ghc-8.0.2
+            - curl
+            - wget
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:svm' TARGET_NAME=-svm EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo
+      addons:
+        apt:
+          sources:
+            - hvr-ghc
+          packages:
+            - ghc-8.0.2
+            - curl
+            - wget
+            
 # using docker
 services:
   - docker

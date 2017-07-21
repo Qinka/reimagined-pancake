@@ -15,7 +15,14 @@ if [ -n "$IS_DOCKER" ] && [ -n "$TARGET" ] && [ -n "$EXECUTABLE" ]; then
     mkdir -p docker.tmp/bin
     echo coping...
     sudo cp $HOME/.local/bin/$EXECUTABLE docker.tmp/bin
-    sudo cp $TRAVIS_BUILD_DIR/.integration/docker/Dockerfile docker.tmp
+    if [ x"$TARGET_NAME" = x"-knn-llvm-native" ]; then
+	export DOCKERFILE=Dockerfile.llvm
+    elif [ x"$TARGET_NAME" = x"-knn-llvm-ptx" ]; then
+	export DOCKERFILE=Dockerfile.cuda
+    else
+	export DOCKERFILE=Dockerfile
+    fi
+    sudo cp $TRAVIS_BUILD_DIR/.integration/docker/$DOCKERFILE docker.tmp/Dockerfile
     sudo cp $TRAVIS_BUILD_DIR/.integration/docker/entrypoint.sh docker.tmp
     echo build docker image
     cd docker.tmp
