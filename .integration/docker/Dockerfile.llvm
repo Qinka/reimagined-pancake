@@ -1,9 +1,9 @@
 # build
-FROM index.docker.io/library/ubuntu:latest
+FROM index.docker.io/library/ubuntu:xenial
 MAINTAINER qinka <me@qinka.pro>
 RUN apt update && apt install -y libgmp10 curl gnupg
 RUN curl http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
-RUN echo deb http://apt.llvm.org/`lsb_release -a | grep Codename | awk '{print $2}'`/ llvm-toolchain-`lsb_release -a | grep Codename | awk '{print $2}`-4.0 main > /etc/apt/sources.list.d/llvm.list
+RUN echo deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main > /etc/apt/sources.list.d/llvm.list
 RUN apt update && apt install -y llvm-4.0
 ADD bin /usr/bin
 COPY entrypoint.sh entrypoint
