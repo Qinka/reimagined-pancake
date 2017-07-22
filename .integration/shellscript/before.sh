@@ -85,6 +85,6 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     mkdir -p $TRAVIS_BUILD_DIR/../libtensorflow
     ${SUDO} tar -C $TRAVIS_BUILD_DIR/../libtensorflow -xzf libtensorflow.tar.gz
     ${SUDO} apt update
-    ${SUDO} apt install protobuf-compile
+    ${SUDO} apt install protobuf-compiler
 fi
 
