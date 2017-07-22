@@ -84,5 +84,7 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     ${SUDO} tar -C $INSTALL_DIR libtensorflow.tar.gz  -xz
     mkdir -p $TRAIVS_BUILD_DIR/../libtensorflow
     ${SUDO} tar -C $TRAIVS_BUILD_DIR/../libtensorflow -xz libtensorflow.tar.gz
+    ${SUDO} apt update
+    ${SUDO} apt install protobuf-compile
 fi
 
