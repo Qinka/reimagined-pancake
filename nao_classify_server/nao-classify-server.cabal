@@ -30,6 +30,9 @@ flag knn-llvm-ptx
 flag svm
      description: Use svm
      default: False
+flag nn
+     description: Use neural network (with tensorflow)
+     default: False
                      
 executable nao-classify-server
   main-is:             Main.hs
@@ -42,10 +45,10 @@ executable nao-classify-server
                      , bytestring
   hs-source-dirs:      src
   default-language:    Haskell2010
-  if  flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm)
+  if  flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm) && !flag(nn)
     hs-source-dirs:   src/dt
     build-depends:    decision-tree
-  if !flag(decision-tree) &&  (flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm)
+  if !flag(decision-tree) &&  (flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm) && !flag(nn)
     hs-source-dirs:   src/knn
     build-depends:    knn
     other-modules:    Accelerate
@@ -58,9 +61,13 @@ executable nao-classify-server
     if !flag(knn-llvm-ptx) && !flag(knn-llvm-native)      
       hs-source-dirs: src/knn/i
       build-depends:  accelerate >= 1
-  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) &&  flag(svm)
+  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) &&  flag(svm) && !flag(nn)
     hs-source-dirs:   src/svm
-    build-depends:    svm-simple == 3.22
-  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm)
+    build-depends:    svm-simple == 3.221
+  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm) &&  flag(nn)
+    hs-source-dirs: src/nn
+    build-depends:    neural-network
+                    , vector
+  if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm) && !flag(nn)
     hs-source-dirs:   src/display
   
