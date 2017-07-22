@@ -64,8 +64,7 @@ matrix:
             - ghc-8.0.2
             - curl
             - wget
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:nn' TARGET_NAME=-nn EXECUTABLE=nao-classify-server 
-LLVM=3.7 SUDO=sudo TF_TYPE=gpu
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:nn' TARGET_NAME=-nn EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo TF_TYPE=gpu
       addons:
         apt:
           sources:
@@ -74,8 +73,7 @@ LLVM=3.7 SUDO=sudo TF_TYPE=gpu
             - ghc-8.0.2
             - curl
             - wget
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:nn' TARGET_NAME=-nn EXECUTABLE=nao-classify-server 
-LLVM=3.7 SUDO=sudo TF_TYPE=cpu
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=nao-classify-server TARGET_FLAG='--flag nao-classify-server:nn' TARGET_NAME=-nn EXECUTABLE=nao-classify-server LLVM=3.7 SUDO=sudo TF_TYPE=cpu
       addons:
         apt:
           sources:
