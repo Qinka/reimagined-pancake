@@ -63,7 +63,7 @@ executable nao-classify-server
       build-depends:  accelerate >= 1
   if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) &&  flag(svm) && !flag(nn)
     hs-source-dirs:   src/svm
-    build-depends:    svm-simple == 3.221
+    build-depends:    svm-simple == 3.22
   if !flag(decision-tree) && !(flag(knn) || flag(knn-llvm-native) || flag(knn-llvm-ptx)) && !flag(svm) &&  flag(nn)
     hs-source-dirs: src/nn
     build-depends:    neural-network
