@@ -81,9 +81,9 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     echo
     export INSTALL_DIR=/usr/local
     wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-${TF_TYPE}-linux-x86_64-1.2.1.tar.gz" -O libtensorflow.tar.gz
-    ${SUDO} tar -C $INSTALL_DIR -xz libtensorflow.tar.gz
-    mkdir -p $TRAIVS_BUILD_DIR/../libtensorflow
-    ${SUDO} tar -C $TRAIVS_BUILD_DIR/../libtensorflow -xz libtensorflow.tar.gz
+    ${SUDO} tar -C $INSTALL_DIR -xzf libtensorflow.tar.gz
+    mkdir -p $TRAVIS_BUILD_DIR/../libtensorflow
+    ${SUDO} tar -C $TRAVIS_BUILD_DIR/../libtensorflow -xzf libtensorflow.tar.gz
     ${SUDO} apt update
     ${SUDO} apt install protobuf-compile
 fi
