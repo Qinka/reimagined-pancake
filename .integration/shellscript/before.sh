@@ -81,7 +81,7 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     echo
     if [ x"$TF_TYPE" = x"gpu" ]; then
        ${SUDO} apt install -y llvm-4.0
-       wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_$
+       wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
        ${SUDO} dpkg -i cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
        ${SUDO} apt update
        ${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
