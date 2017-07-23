@@ -86,11 +86,10 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
        ${SUDO} apt update
        ${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
     fi
-    export INSTALL_DIR=/usr/local
     wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-${TF_TYPE}-linux-x86_64-1.2.1.tar.gz" -O libtensorflow.tar.gz
-    ${SUDO} tar -C $INSTALL_DIR -xzf libtensorflow.tar.gz
+    ${SUDO} tar -C /usr -xzvf libtensorflow.tar.gz
     mkdir -p $TRAVIS_BUILD_DIR/../libtensorflow
-    ${SUDO} tar -C $TRAVIS_BUILD_DIR/../libtensorflow -xzf libtensorflow.tar.gz
+    ${SUDO} tar -C $TRAVIS_BUILD_DIR/../libtensorflow -xzvf libtensorflow.tar.gz
     wget https://github.com/google/protobuf/releases/download/v3.3.0/protoc-3.3.0-linux-x86_64.zip -O protoc.zip
     ${SUDO} unzip -d /usr/local protoc.zip    
 fi
