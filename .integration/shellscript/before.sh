@@ -11,7 +11,7 @@ echo Update apt
 ${SUDO} apt update
 echo
 echo install wget
-${SUDO} apt install -y wget
+${SUDO} apt install -y wget unzip
 echo Fetch the system\'s name
 export OS_CORENAME=$(lsb_release -a | grep Codename | awk '{print $2}')
 echo $OS_CORENAME
@@ -84,7 +84,7 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     ${SUDO} tar -C $INSTALL_DIR -xzf libtensorflow.tar.gz
     mkdir -p $TRAVIS_BUILD_DIR/../libtensorflow
     ${SUDO} tar -C $TRAVIS_BUILD_DIR/../libtensorflow -xzf libtensorflow.tar.gz
-    ${SUDO} apt update
-    ${SUDO} apt install protobuf-compiler
+    wget https://github.com/google/protobuf/releases/download/v3.3.0/protoc-3.3.0-linux-x86_64.zip -O protoc.zip
+    unzip -d /usr/local protoc.zip    
 fi
 
