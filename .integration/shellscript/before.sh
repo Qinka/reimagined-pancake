@@ -79,6 +79,13 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     echo
     echo Install neural network with cpu or gpu
     echo
+    if [ x"$TF_TYPE" = x"gpu" ]; then
+       ${SUDO} apt install -y llvm-4.0
+       wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_$
+       ${SUDO} dpkg -i cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
+       ${SUDO} apt update
+       ${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
+    fi
     export INSTALL_DIR=/usr/local
     wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-${TF_TYPE}-linux-x86_64-1.2.1.tar.gz" -O libtensorflow.tar.gz
     ${SUDO} tar -C $INSTALL_DIR -xzf libtensorflow.tar.gz
