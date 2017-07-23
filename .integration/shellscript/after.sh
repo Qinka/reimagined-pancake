@@ -21,7 +21,7 @@ if [ -n "$IS_DOCKER" ] && [ -n "$TARGET" ] && [ -n "$EXECUTABLE" ]; then
 	export DOCKERFILE=Dockerfile.cuda
     elif [ x"$TARGET_NAME" = x"-nn" ]; then
 	export DOCKERFILE=Dockerfile.tf
-	export TAG=$TAG-TF_TYPE
+	export TAG=$TAG-$TF_TYPE
 	cp -r $TRAVIS_BUILD_DIR/../libtensorflow docker.tmp/
     else
 	export DOCKERFILE=Dockerfile
