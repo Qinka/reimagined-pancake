@@ -85,6 +85,6 @@ elif [ x"$TARGET_NAME" = x"-nn" ]; then
     mkdir -p $TRAVIS_BUILD_DIR/../libtensorflow
     ${SUDO} tar -C $TRAVIS_BUILD_DIR/../libtensorflow -xzf libtensorflow.tar.gz
     wget https://github.com/google/protobuf/releases/download/v3.3.0/protoc-3.3.0-linux-x86_64.zip -O protoc.zip
-    unzip -d /usr/local protoc.zip    
+    ${SUDO} unzip -d /usr/local protoc.zip    
 fi
 
