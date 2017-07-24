@@ -3,7 +3,9 @@ extra-package-dbs: []
 packages:
 - decision-tree/decision-tree
 - decision-tree/train-decision-tree
-- nao_classify_server
+- toy-backend/toy-backend-core
+- toy-backend/toy-backend-classify
+- toy-backend/toy-backend-regress
 - knn
 - svm/Simple-SVM
 - svm/Simple-SVM/bindings-svm
