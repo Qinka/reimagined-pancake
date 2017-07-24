@@ -24,11 +24,10 @@ import           Data.Int               (Int32, Int64)
 import           Data.List              (genericLength)
 import qualified Data.Text.IO           as T
 import qualified Data.Vector            as V
-
-import qualified TensorFlow.Core        as TF
-import qualified TensorFlow.Ops         as TF
-import qualified TensorFlow.Gradient    as TF
-
+import qualified TensorFlow.Core as TF
+import qualified TensorFlow.Ops as TF hiding (initializedVariable, zeroInitializedVariable)
+import qualified TensorFlow.Variable as TF
+import qualified TensorFlow.Minimize as TF
 import           GHC.Stack
 -- import qualified TensorFlow.Minimize    as TF
 \end{code}
@@ -99,44 +98,52 @@ randomParam width (TF.Shape shape) =
   where
     stddev = TF.scalar (1 / sqrt (fromIntegral width))
 
-reduceMean :: TF.Tensor TF.Build Float -> TF.Tensor TF.Build Float
-reduceMean xs = TF.mean xs (TF.scalar (0 :: Int32))
 
 tupleSize :: Int64
 tupleSize = 3
 labelSize :: Int64
 labelSize = 2
 
-commonModel batchSize nodeSize = do
+commonModel :: TF.MonadBuild m
+               => Int64 -- ^ batch size
+               -> Int64 -- ^ node size
+               -> m (TF.Variable Float) -- ^ hidden weights
+               -> m (TF.Variable Float) -- ^ hidden biases
+               -> m (TF.Variable Float) -- ^ logit  weights
+               -> m (TF.Variable Float) -- ^ logit  biases
+               -> m ( TF.Tensor TF.Value Float -- ^ face
+                    , TF.Variable        Float -- ^ hidden weights
+                    , TF.Variable        Float -- ^ hidden biases
+                    , TF.Variable        Float -- ^ logit  weights
+                    , TF.Variable        Float -- ^ logit  biases
+                    , TF.Tensor TF.Build Float -- ^ logits
+                    , TF.Tensor TF.Value Label -- ^ predict
+                    )
+commonModel batchSize nodeSize hwiM hbiM lwiM lbiM = do
   face <- TF.placeholder [batchSize, tupleSize]
   -- hidden layer
-  hiddenWeights <- TF.initializedVariable =<< randomParam tupleSize [tupleSize, nodeSize]
-  hiddenBiases  <- TF.zeroInitializedVariable [nodeSize]
-  let hiddenZ = (face `TF.matMul` hiddenWeights) `TF.add` hiddenBiases
+  hiddenWeights <- hwiM
+  hiddenBiases  <- hbiM
+  let hiddenZ = (face `TF.matMul` TF.readValue hiddenWeights) `TF.add` TF.readValue hiddenBiases
       hidden  = TF.relu hiddenZ
   -- logits
-  logitWeights <- TF.initializedVariable =<< randomParam nodeSize [nodeSize,labelSize]
-  logitBiases  <- TF.zeroInitializedVariable [labelSize]
-  let logits = (hidden `TF.matMul` logitWeights) `TF.add` logitBiases
+  logitWeights <- lwiM
+  logitBiases  <- lbiM
+  let logits = (face `TF.matMul` TF.readValue logitWeights) `TF.add` TF.readValue logitBiases
   predict <- TF.render $ TF.cast $ TF.argMax (TF.softmax logits) (TF.scalar (1 :: Int32))
-  return (face, hiddenWeights, hiddenBiases, logitWeights, logitBiases, predict)
+  return (face, hiddenWeights, hiddenBiases, logitWeights, logitBiases, logits, predict)
 
 
 createPredictModel ::  PredictModelParam -> TF.Build PredictModel
 createPredictModel (PredictModelParam hw hb lw lb )  = do
   let batchSize = -1 -- use -1 batch size to support variable sized batches
       nodeSize = 3 -- (age, gender, smile) =>> (h1, h2, h3) -> (true, false)
-  face <- TF.placeholder [batchSize, tupleSize]
-  -- hidden layer
-  hiddenWeights <- TF.initializedVariable $ TF.constant [tupleSize,nodeSize] hw
-  hiddenBiases  <- TF.initializedVariable $ TF.constant [nodeSize]           hb
-  let hiddenZ = (face `TF.matMul` hiddenWeights) `TF.add` hiddenBiases
-      hidden  = TF.relu hiddenZ
-  -- logits
-  logitWeights <- TF.initializedVariable $ TF.constant [nodeSize,labelSize] lw
-  logitBiases  <- TF.initializedVariable $ TF.constant [labelSize]          lb
-  let logits = (hidden `TF.matMul` logitWeights) `TF.add` logitBiases
-  predict <- TF.render $ TF.cast $ TF.argMax (TF.softmax logits) (TF.scalar (1 :: Int32))
+  (face, hiddenWeights, hiddenBiases, logitWeights, logitBiases, _, predict) <-
+    commonModel batchSize nodeSize
+    (TF.initializedVariable $ TF.constant [tupleSize,nodeSize] hw)
+    (TF.initializedVariable $ TF.constant [nodeSize]           hb)
+    (TF.initializedVariable $ TF.constant [nodeSize,labelSize] lw)
+    (TF.initializedVariable $ TF.constant [labelSize]          lb)
   return PredictModel { doPredict = \fFeed -> TF.runWithFeeds [ TF.feed face fFeed] predict
                       }
   
@@ -145,29 +152,21 @@ createTrainModel :: HasCallStack => TF.Build TrainModel
 createTrainModel = do
   let batchSize = -1 -- use -1 batch size to support variable sized batches
       nodeSize = 3 -- (age, gender, smile) =>> (h1, h2, h3) -> (true, false)
-  face <- TF.placeholder [batchSize, tupleSize]
-  -- hidden layer
-  hiddenWeights <- TF.initializedVariable =<< randomParam tupleSize [tupleSize, nodeSize]
-  hiddenBiases  <- TF.zeroInitializedVariable [nodeSize]
-  let hiddenZ = (face `TF.matMul` hiddenWeights) `TF.add` hiddenBiases
-      hidden  = TF.relu hiddenZ
-  -- logits
-  logitWeights <- TF.initializedVariable =<< randomParam nodeSize [nodeSize,labelSize]
-  logitBiases  <- TF.zeroInitializedVariable [labelSize]
-  let logits = (hidden `TF.matMul` logitWeights) `TF.add` logitBiases
-  predict <- TF.render $ TF.cast $ TF.argMax (TF.softmax logits) (TF.scalar (1 :: Int32))
-  return (face, hiddenWeights, hiddenBiases, logitWeights, logitBiases, predict)
+  -- ``common'' model
+  (face, hiddenWeights, hiddenBiases, logitWeights, logitBiases, logits, predict) <-
+    commonModel batchSize nodeSize
+    (TF.initializedVariable =<< randomParam nodeSize [nodeSize,labelSize])
+    (TF.zeroInitializedVariable [nodeSize]                               )
+    (TF.initializedVariable =<< randomParam nodeSize [nodeSize,labelSize])
+    (TF.zeroInitializedVariable [labelSize]                              )
   -- create training action
   labels <- TF.placeholder [batchSize]
   let labelVecs = TF.oneHot labels (fromIntegral labelSize) 1 0
-      loss      = reduceMean $ fst $ TF.softmaxCrossEntropyWithLogits logits labelVecs
+      loss      = TF.reduceMean $ fst $ TF.softmaxCrossEntropyWithLogits logits labelVecs
       params    = [hiddenWeights, hiddenBiases, logitWeights, logitBiases]
-  grads <- TF.gradients loss params
-  let lr = TF.scalar 0.00001
-      applyGrad param grad = TF.assign param $ param `TF.sub` (lr `TF.mul` grad)
-  trainStep <- TF.group =<< zipWithM applyGrad params grads
+  trainStep <- TF.minimizeWith TF.adam loss params
   let correctPreds = TF.equal predict labels
-  errorRateTensor <- TF.render $ 1 - reduceMean (TF.cast correctPreds)
+  errorRateTensor <- TF.render $ 1 - TF.reduceMean (TF.cast correctPreds)
   return TrainModel { train = \fFeed lFeed -> TF.runWithFeeds_
                                               [ TF.feed face   fFeed
                                               , TF.feed labels lFeed
@@ -178,10 +177,10 @@ createTrainModel = do
                                               , TF.feed labels lFeed
                                               ] errorRateTensor
                     , param = do
-                        hw <- TF.run =<< TF.render (TF.cast hiddenWeights)
-                        hb <- TF.run =<< TF.render (TF.cast hiddenBiases)
-                        lw <- TF.run =<< TF.render (TF.cast logitWeights)
-                        lb <- TF.run =<< TF.render (TF.cast logitBiases)
+                        hw <- TF.run =<< TF.render (TF.cast $ TF.readValue hiddenWeights)
+                        hb <- TF.run =<< TF.render (TF.cast $ TF.readValue hiddenBiases)
+                        lw <- TF.run =<< TF.render (TF.cast $ TF.readValue logitWeights)
+                        lb <- TF.run =<< TF.render (TF.cast $ TF.readValue logitBiases)
                         return $ PredictModelParam (V.toList hw) (V.toList hb) (V.toList lw) (V.toList lb)
                     }
 
