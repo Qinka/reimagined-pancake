@@ -2,6 +2,6 @@
 	path = svm/Simple-SVM
 	url  = https://github.com/Qinka/Simple-SVM.git
 
-[submodule "nn/tensorflow"]
-	path = nn/tensorflow
+[submodule "tensorflow"]
+	path = tensorflow
 	url = https://github.com/tensorflow/haskell.git

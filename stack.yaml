@@ -10,10 +10,10 @@ packages:
 - svm/Simple-SVM
 - svm/Simple-SVM/bindings-svm
 - nn/neural-network
-- nn/tensorflow/tensorflow
-- nn/tensorflow/tensorflow-core-ops
-- nn/tensorflow/tensorflow-ops
-- nn/tensorflow/tensorflow-proto
+- tensorflow/tensorflow
+- tensorflow/tensorflow-core-ops
+- tensorflow/tensorflow-ops
+- tensorflow/tensorflow-proto
 resolver: nightly-2017-07-20
 extra-deps:
 - accelerate-llvm-1.0.0.0
