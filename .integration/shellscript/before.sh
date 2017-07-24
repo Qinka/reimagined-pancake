@@ -59,7 +59,7 @@ if   [ -n "$LLVM_NATIVE" ]; then
     echo
     ${SUDO} apt install -y llvm-4.0
 fi
-if [ -n "$LLVM_PTX"]; then
+if [ -n "$LLVM_PTX" ]; then
     echo
     echo Install knn with cuda depends
     echo
