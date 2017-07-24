@@ -20,9 +20,9 @@ library
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.9 && <4.10
-                     , tensorflow
-                     , tensorflow-ops
-                     , tensorflow-proto
+                     , tensorflow        == 0.1.0.2
+                     , tensorflow-ops    == 0.1.0.0
+                     , tensorflow-proto  == 0.1.0.0
                      , vector
                      , text
                      , aeson

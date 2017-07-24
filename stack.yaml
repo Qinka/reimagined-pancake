@@ -43,6 +43,8 @@ packages:
 - svm/Simple-SVM
 - svm/Simple-SVM/bindings-svm
 - nn/neural-network
+
+
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps:
@@ -52,8 +54,6 @@ extra-deps:
 - cuda-0.7.5.3
 - llvm-hs-4.0.1.0
 - llvm-hs-pure-4.0.0.0
-
-
 # Override default flag values for local packages and extra-deps
 flags: {}
 
