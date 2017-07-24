@@ -60,6 +60,8 @@ getClassifyR = do
 getRegressR :: Handler Value
 getRegressR = do
   pitches <- lookupGetParams "pitch"
+  liftIO $ print pitches
   yaws    <- lookupGetParams "yaw"
+  liftIO $ print yaws
   rg      <- regressor <$> getYesod
   returnJson =<< (liftIO $ regress rg (readT <$> yaws) (readT <$> pitches))
