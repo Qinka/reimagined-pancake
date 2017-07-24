@@ -15,11 +15,11 @@ if [ -n "$IS_DOCKER" ] && [ -n "$TARGET" ] && [ -n "$EXECUTABLE" ]; then
     mkdir -p docker.tmp/bin
     echo coping...
     sudo cp $HOME/.local/bin/$EXECUTABLE docker.tmp/bin
-    if [ x"$TARGET_NAME" = x"-knn-llvm-native" ]; then
+    if [ -n "$LLVM_NATIVE" ]; then
 	export DOCKERFILE=Dockerfile.llvm
-    elif [ x"$TARGET_NAME" = x"-knn-llvm-ptx" ]; then
+    elif [ -n "$LLVM_PTX" ]; then
 	export DOCKERFILE=Dockerfile.cuda
-    elif [ x"$TARGET_NAME" = x"-nn" ]; then
+    elif [ -n "$TF" ]; then
 	export DOCKERFILE=Dockerfile.tf
 	export TAG=$TAG-$TF_TYPE
 	cp -r $TRAVIS_BUILD_DIR/../libtensorflow docker.tmp/
