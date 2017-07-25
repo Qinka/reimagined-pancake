@@ -20,18 +20,18 @@ export OS_DISTRIBUTOR=$(lsb_release -a | grep Description | awk '{print $2}')
 echo $OS_DISTRIBUTOR
 echo
 if [ -n "$LLVM" ]; then
-  echo install llvm
-  wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-  echo deb http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME main | sudo tee -a /etc/apt/sources.list.d/llvm.list
-  echo deb-src http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME main | sudo tee -a /etc/apt/sources.list.d/llvm.list
-  echo deb http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-$LLVM main | sudo tee -a /etc/apt/sources.list.d/llvm.list
-  echo deb-src http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-$LLVM main | sudo tee -a /etc/apt/sources.list.d/llvm.list
-  echo deb http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-4.0 main | sudo tee -a /etc/apt/sources.list.d/llvm.list
-  echo deb-src http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-4.0 main | sudo tee -a /etc/apt/sources.list.d/llvm.list
-  sudo apt update
-  sudo apt install -y libllvm-$LLVM-ocaml-dev libllvm$LLVM libllvm$LLVM-dbg lldb-$LLVM llvm-$LLVM llvm-$LLVM-dev llvm-$LLVM-runtime lldb-$LLVM-dev
+    echo install llvm
+    wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+    echo deb http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME main | sudo tee -a /etc/apt/sources.list.d/llvm.list
+    echo deb-src http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME main | sudo tee -a /etc/apt/sources.list.d/llvm.list
+    echo deb http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-$LLVM main | sudo tee -a /etc/apt/sources.list.d/llvm.list
+    echo deb-src http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-$LLVM main | sudo tee -a /etc/apt/sources.list.d/llvm.list
+    echo deb http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-4.0 main | sudo tee -a /etc/apt/sources.list.d/llvm.list
+    echo deb-src http://apt.llvm.org/$OS_CORENAME/ llvm-toolchain-$OS_CORENAME-4.0 main | sudo tee -a /etc/apt/sources.list.d/llvm.list
+    sudo apt update
+    sudo apt install -y libllvm-$LLVM-ocaml-dev libllvm$LLVM libllvm$LLVM-dbg lldb-$LLVM llvm-$LLVM llvm-$LLVM-dev llvm-$LLVM-runtime lldb-$LLVM-dev
 else
-  echo without llvm
+    echo without llvm
 fi
 echo
 echo login docker
@@ -53,7 +53,7 @@ true
 
 
 
-if   [ -n "$LLVM_NATIVE" ]; then
+if  [ -n "$LLVM_NATIVE" ]; then
     echo
     echo Install knn with llvm depends
     echo
@@ -69,16 +69,16 @@ if [ -n "$LLVM_PTX" ]; then
     ${SUDO} apt update
     ${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
 fi
-if [ -n "$TF" ]; then
+if [ -n "$TF_TYPE" ]; then
     echo
     echo Install neural network with cpu or gpu
     echo
     if [ x"$TF_TYPE" = x"gpu" ]; then
-       ${SUDO} apt install -y llvm-4.0
-       wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
-       ${SUDO} dpkg -i cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
-       ${SUDO} apt update
-       ${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
+	${SUDO} apt install -y llvm-4.0
+	wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
+	${SUDO} dpkg -i cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
+	${SUDO} apt update
+	${SUDO} apt install -y cuda nvidia-cuda-dev nvidia-cuda-toolkit
     fi
     wget "https://storage.googleapis.com/tensorflow/libtensorflow/libtensorflow-${TF_TYPE}-linux-x86_64-1.0.0.tar.gz" -O libtensorflow.tar.gz
     ${SUDO} tar -C /usr -xzvf libtensorflow.tar.gz

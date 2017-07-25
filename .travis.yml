@@ -10,7 +10,7 @@ cache:
 # the matrix of settings
 matrix:
   include:
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-regress:linear' TARGET_NAME=-linear EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF=true TF_TYPE=gpu
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-regress:linear' TARGET_NAME=-linear EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF_TYPE=gpu
       addons:
         apt:
           sources:
@@ -19,7 +19,7 @@ matrix:
             - ghc-8.0.2
             - curl
             - wget
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-regress:linear' TARGET_NAME=-linear EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF= true TF_TYPE=cpu
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-regress:linear' TARGET_NAME=-linear EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF_TYPE=cpu
       addons:
         apt:
           sources:
@@ -28,7 +28,7 @@ matrix:
             - ghc-8.0.2
             - curl
             - wget
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-classify:nn'  TF= true TARGET_NAME=-nn EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF_TYPE=gpu
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-classify:nn' TARGET_NAME=-nn EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF_TYPE=gpu
       addons:
         apt:
           sources:
@@ -37,7 +37,7 @@ matrix:
             - ghc-8.0.2
             - curl
             - wget
-    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-classify:nn'  TF= true TARGET_NAME=-nn EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF_TYPE=cpu
+    - env: GHC_VER=8.0.2 IS_DOCKER=docker TARGET=toy-backend-core TARGET_FLAG='--flag toy-backend-classify:nn' TARGET_NAME=-nn EXECUTABLE=toy-backend-core LLVM=3.7 SUDO=sudo TF_TYPE=cpu
       addons:
         apt:
           sources:
