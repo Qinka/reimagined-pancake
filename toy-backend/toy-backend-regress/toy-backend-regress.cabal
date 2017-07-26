@@ -20,6 +20,9 @@ flag linear
      default: False
      description: Use linear regression
 
+flag quadratic-curve
+     default: False
+     description: Use quadratic-curve regression
                      
 library
   exposed-modules:     Toy.Backend.Regress
@@ -28,8 +31,11 @@ library
                      , text
                      , yesod-core
   default-language:    Haskell2010
-  if  flag(linear)
-    build-depends:     regress-linear
+  if  flag(linear) && !flag(quadratic-curve)
+    build-depends:     regress
     hs-source-dirs:    src/linear
-  if !flag(linear)
+  if !flag(linear) &&  flag(quadratic-curve)
+    build-depends:     regress
+    hs-source-dirs:    src/quadratic-curve
+  if !flag(linear) && !flag(quadratic-curve)
     hs-source-dirs:    src
