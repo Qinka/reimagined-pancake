@@ -3,8 +3,8 @@
 {-# LANGUAGE TemplateHaskell  #-}
 
 module AI.Regress.Linear
-       ( fit
-       ) where
+  ( fit
+  ) where
 
 
 import           Control.Monad          (replicateM_)
