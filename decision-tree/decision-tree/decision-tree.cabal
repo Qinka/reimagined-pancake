@@ -20,7 +20,7 @@ library
                        AI.DecisionTree.ADT
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base >=4.9 && < 5
                      , containers
                      , aeson
   hs-source-dirs:      src

@@ -37,7 +37,7 @@ flag nn
                      
 library
   exposed-modules:     Toy.Backend.Classify 
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base >=4.9 && < 5
                      , aeson
                      , text
                      , yesod-core

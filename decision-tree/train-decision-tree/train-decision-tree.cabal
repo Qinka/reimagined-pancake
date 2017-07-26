@@ -19,7 +19,7 @@ executable train-decision-tree
   main-is:             Main.hs
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base >=4.9 && < 5
                      , decision-tree == 0.1.0.*
                      , bytestring
   hs-source-dirs:      src

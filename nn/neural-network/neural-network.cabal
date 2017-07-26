@@ -19,7 +19,7 @@ library
   exposed-modules:     AI.NN
   -- other-modules:       
   -- other-extensions:    
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base >=4.9 && < 5
                      , tensorflow        == 0.1.0.2
                      , tensorflow-ops    == 0.1.0.0
                      , tensorflow-proto  == 0.1.0.0

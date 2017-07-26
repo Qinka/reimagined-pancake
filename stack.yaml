@@ -15,7 +15,8 @@ packages:
 - tensorflow/tensorflow-core-ops
 - tensorflow/tensorflow-ops
 - tensorflow/tensorflow-proto
-resolver: nightly-2017-07-20
+resolver: nightly-2017-07-25
+# compiler: ghc-8.2.1
 extra-deps:
 - accelerate-llvm-1.0.0.0
 - accelerate-llvm-native-1.0.0.0
