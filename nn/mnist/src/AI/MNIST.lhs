@@ -29,6 +29,9 @@ import qualified TensorFlow.Ops as TF hiding (initializedVariable, zeroInitializ
 import qualified TensorFlow.Variable as TF
 import qualified TensorFlow.Minimize as TF
 import qualified TensorFlow.GenOps.Core as TF (conv2D,maxPool)
+import qualified TensorFlow.BuildOp as TF (OpParams(..))
+import qualified TensorFlow.Output as TF (OpDef(..))
+import qualified Data.Map as Map
 \end{code}
 
 In this section, the main topic is about ``handwritten numeral recognition'' with MNIST%
@@ -61,6 +64,9 @@ randomParam width (TF.Shape shape) = (`TF.mul` stddev) <$> TF.truncatedNormal (T
 -- | node sizes
 nodeSizes :: [Int64]
 nodeSizes = [5,1440,720,360,10]
+
+featureSize :: Int64
+featureSize = 10
 
 -- | type of label
 type Label = Int32
@@ -110,15 +116,17 @@ commonModel :: TF.MonadBuild m
                  )
 commonModel batchSize l1 l2 l3 l4 = do
   images <- TF.placeholder [batchSize,numPixels]
+  let convAttr = Map.fromList [("padding",)]
+      conv2D = TF.conv2D (\opDef -> opDef{_opAttrs = convAttr `Map.union` _opAttrs} )
   -- layer 1 (cnn)
   (w1,b1) <- l1
-  let l1Exp = TF.maxPool $ images `TF.conv2D` TF.readValue w1 `TF.add` TF.readValue b1
+  let l1Exp = TF.maxPool $ images `conv2D` TF.readValue w1 `TF.add` TF.readValue b1
   (w2,b2) <- l2
   let l2Exp = l1Exp  `TF.matMul` TF.readValue w2 `TF.add` TF.readValue b2
   (w3,b3) <- l3
   let l3Exp = l2Exp  `TF.matMul` TF.readValue w3 `TF.add` TF.readValue b3
   (w4,b4) <- l4
-  let l4Exp = l4Exp  `TF.matMul` TF.readValue w4 `TF.add` TF.readValue b4
+  let l4Exp = l3Exp  `TF.matMul` TF.readValue w4 `TF.add` TF.readValue b4
   predict <- TF.render $ TF.cast $ TF.argMax (TF.softmax l4Exp) (TF.scalar (1 :: Int64))
   return (images,predict,(w1,b1),(w2,b2),(w3,b3),(w4,b4),l4Exp)
 
@@ -127,7 +135,7 @@ createInferModel (w1:b1:w2:b2:w3:b3:w4:b4:_) = do
   let batchSize = -1
   (images,predict,(w1,b1),(w2,b2),(w3,b3),(w4,b4),_) <-
     commonModel batchSize
-    ((,) <$> (TF.initializedVariable $ TF.constant [nodeSizes !! 0,nodeSizes !! 0] w1)
+    ((,) <$> (TF.initializedVariable $ TF.constant [nodeSizes !! 0,nodeSizes !! 0, 1, featureSize] w1)
          <*> (TF.initializedVariable $ TF.constant [               nodeSizes !! 1] b1))
     ((,) <$> (TF.initializedVariable $ TF.constant [nodeSizes !! 1,nodeSizes !! 2] w2)
          <*> (TF.initializedVariable $ TF.constant [               nodeSizes !! 2] b2))
@@ -142,7 +150,7 @@ createTrainModel = do
   let batchSize = -1
   (images,predict,(w1,b1),(w2,b2),(w3,b3),(w4,b4),logits) <-
     commonModel batchSize
-    ((,) <$> (TF.initializedVariable =<< randomParam (nodeSizes !! 0)  [nodeSizes !! 0, nodeSizes !! 0])
+    ((,) <$> (TF.initializedVariable =<< randomParam (nodeSizes !! 0)  [nodeSizes !! 0, nodeSizes !! 0, 1, featureSize])
          <*> (TF.zeroInitializedVariable [nodeSizes !! 1]))
     ((,) <$> (TF.initializedVariable =<< randomParam (nodeSizes !! 1)  [nodeSizes !! 1, nodeSizes !! 2])
          <*> (TF.zeroInitializedVariable [nodeSizes !! 2]))
@@ -181,7 +189,7 @@ train_mnist :: [MNIST] -> [Word8] -> IO ModelParams
 train_mnist sample label = TF.runSession $ do
   model <- TF.build createTrainModel
   let encodeImageBatch xs = TF.encodeTensorData [genericLength xs, numPixels] (fromIntegral <$>    mconcat xs)
-      encodeLabelBatch xs = TF.encodeTensorData [genericLength xs, numPixels] (fromIntegral <$> V.fromList xs)
+      encodeLabelBatch xs = TF.encodeTensorData [genericLength xs] (fromIntegral <$> V.fromList xs)
       batchSize           = 100
       selectBatch    i xs = take batchSize $ drop (i * batchSize) (cycle xs)
   forM_ ([0..1000] :: [Int]) $ \i -> do
