@@ -155,7 +155,7 @@ createTrainModel = do
   -- ``common'' model
   (face, hiddenWeights, hiddenBiases, logitWeights, logitBiases, logits, predict) <-
     commonModel batchSize nodeSize
-    (TF.initializedVariable =<< randomParam nodeSize [nodeSize,labelSize])
+    (TF.initializedVariable =<< randomParam tupleSize [tupleSize,nodeSize])
     (TF.zeroInitializedVariable [nodeSize]                               )
     (TF.initializedVariable =<< randomParam nodeSize [nodeSize,labelSize])
     (TF.zeroInitializedVariable [labelSize]                              )
