@@ -3,9 +3,10 @@
 \label{sec:hnr}
 
 \begin{code}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE OverloadedLists  #-}
-{-# LANGUAGE TemplateHaskell  #-}
+{-# LANGUAGE FlexibleContexts  #-}
+{-# LANGUAGE OverloadedLists   #-}
+{-# LANGUAGE TemplateHaskell   #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module AI.MNIST
   ( train_mnist
@@ -28,10 +29,12 @@ import qualified TensorFlow.Core as TF
 import qualified TensorFlow.Ops as TF hiding (initializedVariable, zeroInitializedVariable)
 import qualified TensorFlow.Variable as TF
 import qualified TensorFlow.Minimize as TF
-import qualified TensorFlow.GenOps.Core as TF (conv2D,maxPool)
+import qualified TensorFlow.GenOps.Core as TF (conv2D',maxPool')
 import qualified TensorFlow.BuildOp as TF (OpParams(..))
-import qualified TensorFlow.Output as TF (OpDef(..))
+import qualified TensorFlow.Output as TF (OpDef(..),opAttr)
 import qualified Data.Map as Map
+import Lens.Family2
+import qualified Data.ByteString as B
 \end{code}
 
 In this section, the main topic is about ``handwritten numeral recognition'' with MNIST%
@@ -50,7 +53,7 @@ The ``tasks'', or say layouts of recognition with convolution nerual network are
 \begin{code}
 -- | number of pixels
 numPixels :: Int64
-numPixels = 28 * 28
+numPixels = 28
 -- | number of label
 numLabels :: Int64
 numLabels = 10
@@ -115,12 +118,20 @@ commonModel :: TF.MonadBuild m
                  , TF.Tensor TF.Build Float -- ^ logit
                  )
 commonModel batchSize l1 l2 l3 l4 = do
-  images <- TF.placeholder [batchSize,numPixels]
-  let convAttr = Map.fromList [("padding",)]
-      conv2D = TF.conv2D (\opDef -> opDef{_opAttrs = convAttr `Map.union` _opAttrs} )
+  images <- TF.placeholder [batchSize,numPixels,numPixels,1]
+  let conv2D = TF.conv2D' ( (TF.opAttr "strides" .~ ([1,1,1,1] :: [Int64]))
+                          . (TF.opAttr "padding" .~ ("VALID" :: B.ByteString))
+                          . (TF.opAttr "data_format" .~ ("NHWC" :: B.ByteString))
+                          ) 
+      maxPool = TF.maxPool' ( (TF.opAttr "ksize"   .~ ([1,2,2,1] :: [Int64]))
+                            . (TF.opAttr "strides" .~ ([1,2,2,1] :: [Int64]))
+                            . (TF.opAttr "padding" .~ ("VALID" :: B.ByteString))
+                            . (TF.opAttr "data_format" .~ ("NHWC" :: B.ByteString))
+                            )
   -- layer 1 (cnn)
   (w1,b1) <- l1
-  let l1Exp = TF.maxPool $ images `conv2D` TF.readValue w1 `TF.add` TF.readValue b1
+  let l1Exp' = maxPool $ images `conv2D` TF.readValue w1 `TF.add` TF.readValue b1
+      l1Exp  = TF.reshape l1Exp' (TF.constant [2] [-1,1440 :: Int32])
   (w2,b2) <- l2
   let l2Exp = l1Exp  `TF.matMul` TF.readValue w2 `TF.add` TF.readValue b2
   (w3,b3) <- l3
@@ -136,7 +147,7 @@ createInferModel (w1:b1:w2:b2:w3:b3:w4:b4:_) = do
   (images,predict,(w1,b1),(w2,b2),(w3,b3),(w4,b4),_) <-
     commonModel batchSize
     ((,) <$> (TF.initializedVariable $ TF.constant [nodeSizes !! 0,nodeSizes !! 0, 1, featureSize] w1)
-         <*> (TF.initializedVariable $ TF.constant [               nodeSizes !! 1] b1))
+         <*> (TF.initializedVariable $ TF.constant [                  featureSize] b1))
     ((,) <$> (TF.initializedVariable $ TF.constant [nodeSizes !! 1,nodeSizes !! 2] w2)
          <*> (TF.initializedVariable $ TF.constant [               nodeSizes !! 2] b2))
     ((,) <$> (TF.initializedVariable $ TF.constant [nodeSizes !! 2,nodeSizes !! 3] w3)
@@ -151,7 +162,7 @@ createTrainModel = do
   (images,predict,(w1,b1),(w2,b2),(w3,b3),(w4,b4),logits) <-
     commonModel batchSize
     ((,) <$> (TF.initializedVariable =<< randomParam (nodeSizes !! 0)  [nodeSizes !! 0, nodeSizes !! 0, 1, featureSize])
-         <*> (TF.zeroInitializedVariable [nodeSizes !! 1]))
+         <*> (TF.zeroInitializedVariable [featureSize]))
     ((,) <$> (TF.initializedVariable =<< randomParam (nodeSizes !! 1)  [nodeSizes !! 1, nodeSizes !! 2])
          <*> (TF.zeroInitializedVariable [nodeSizes !! 2]))
     ((,) <$> (TF.initializedVariable =<< randomParam (nodeSizes !! 2)  [nodeSizes !! 2, nodeSizes !! 3])
@@ -185,23 +196,34 @@ createTrainModel = do
                                  <*> trans b4
                     }
                                                
-train_mnist :: [MNIST] -> [Word8] -> IO ModelParams
-train_mnist sample label = TF.runSession $ do
+train_mnist :: Int -> [MNIST] -> [Word8] -> [MNIST] -> [Word8] -> IO ModelParams
+train_mnist times sample label ts tl = TF.runSession $ do
   model <- TF.build createTrainModel
-  let encodeImageBatch xs = TF.encodeTensorData [genericLength xs, numPixels] (fromIntegral <$>    mconcat xs)
+  let encodeImageBatch xs = TF.encodeTensorData [genericLength xs, numPixels, numPixels,1]
+                            (fromIntegral <$>    mconcat xs)
       encodeLabelBatch xs = TF.encodeTensorData [genericLength xs] (fromIntegral <$> V.fromList xs)
       batchSize           = 100
       selectBatch    i xs = take batchSize $ drop (i * batchSize) (cycle xs)
-  forM_ ([0..1000] :: [Int]) $ \i -> do
+  forM_ ([0..times] :: [Int]) $ \i -> do
     let images = encodeImageBatch (selectBatch i sample)
         labels = encodeLabelBatch (selectBatch i  label)
     train model images labels
     when (i `mod` 100 == 0) $ do
       err <- errRt model images labels
       liftIO $ putStrLn $ "training error: " ++ show (err * 100) ++ "%\n"
-  param model
-    
-  
-
-    
+  let images = encodeImageBatch ts
+      labels = encodeLabelBatch tl
+  errTest <- errRt model images labels
+  liftIO $ putStrLn $ "training error(for training set): " ++ show (errTest * 100) ++ "%\n"
+  param model   
 \end{code}
+
+The following is the example command for training with mnist
+\begin{spec}
+let path'prefix = ""
+s  <- readMNISTSamples $ path'prefix ++ "train-images-idx3-ubyte.gz"
+l  <- readMNISTLabels  $ path'prefix ++ "train-labels-idx1-ubyte.gz"
+ts <- readMNISTSamples $ path'prefix ++  "t10k-images-idx3-ubyte.gz"
+tl <- readMNISTLabels  $ path'prefix ++  "t10k-labels-idx1-ubyte.gz"
+train_mnist 1500 s l ts tl
+\end{spec}
