@@ -208,7 +208,20 @@ The basic ideas of support vector machine are
 
 To map the samples to the feature space, there are many ways to do it.
 However, it is possible that samples are mapped to a infiniet-dimensional space.
-For example, we can use $\phi(x)=(1,x,x^2,x^3,\dots)^T$
+For example, we can use $\phi(x)=(1,x,x^2,x^3,\dots)^T$ to map samples to a infiniet-dimensional space.
+But that is bad idea, because it is impossible to compute.
+So we need to use kernel function to map.
+
+So let me tell you how to use kernel function.
+The kernel function is dualistic function $K(\cdot,\cdot)$.
+For samples $\{(\mathbf{x}_i,y_i)\}^n_{i=1}$, and kernel function(s) $K(\mathbf{x},\mathbf{x}_j)^n_{j=1}$,
+the mapping function will be defined as
+\begin{equation}
+  \label{eq:mapping}
+  f_\theta(\mathbf{x})=\sum\limits_{j=1}^{n}\theta K(\mathbf{x},\mathbf{x}_k)
+\end{equation}
+
+
 
 
 
