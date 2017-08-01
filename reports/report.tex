@@ -10,7 +10,7 @@
 \usepackage[backend=bibtex]{biblatex} 
 \addbibresource{bib/machine-learning}
 
-%%% datas
+%%% datas5
 \begin{filecontents}{knn.1.igndata}
     1  1
     2  3
@@ -196,7 +196,7 @@ or \textbf{manhattan distance} to measure the distance.
 \section{Support Vector Machine}
 \label{sec:svm}
 
-Support vector machines are supervised learning models. It's mainly used to classify,
+Support vector machines are supervised learning models\cite{svm-wikipedia}. It's mainly used to classify,
 while it can also be use to regression analysis.
 The basic ideas of support vector machine are
 \begin{itemize}
@@ -216,7 +216,7 @@ So we need to use kernel function to map.
 So let me tell you how to use kernel function.
 The kernel function is dualistic function $K(\cdot,\cdot)$.
 For samples $\{(\mathbf{x}_i,y_i)\}^n_{i=1}$, and kernel function(s) $K(\mathbf{x},\mathbf{x}_j)^n_{j=1}$,
-the mapping function will be defined as
+the mapping function\cite{GraphML1} will be defined as
 \begin{equation}
   \label{eq:mapping}
   f_\theta(\mathbf{x})=\sum\limits_{j=1}^{n}\theta K(\mathbf{x},\mathbf{x}_k)
@@ -275,9 +275,35 @@ The best way to find out that hyperplane is find the solution of that optimizati
 By using Lagrange multiplier method\cite{GraphML1}:
 \begin{equation}
   \label{eq:lagrange-multiplier-method}
-  L(\omega,\gamma,\xi,\alpha,\beta) =
-  \frac{1}{2}
+  L(\mathbf{\omega},\gamma,\mathbf{\xi},\mathbf{\alpha},\mathbf{\beta}) =
+  \frac{1}{2}\parallel\mathbf{\omega}\parallel^2+C\sum\limits_{i=1}^{n}\xi_i
+  - \sum\limits_{i=1}^{n}a_i\left(\left(\mathbf{\omega}^T\mathbf{x}_i+\gamma\right)y_i-1+
+  xi_i\right) - \sum\limits_{i=1}^{n}\beta_i\xi_i
 \end{equation}
+And that is equal to:
+\begin{equation}
+\max\limits_{\mathbf{\alpha},\mathbf{\beta}}\inf\limits_{\mathbf{\omega},\gamma,\mathbf{\xi}}
+ L(\mathbf{\omega},\gamma,\mathbf{\xi},\mathbf{\alpha},\mathbf{\beta})
+\end{equation}
+subjects are $\mathbf{\alpha} \geq 0,\mathbf{\beta} \geq 0$.
+Because of the optimized condition of $\inf{\mathbf{\omega},\gamma,\mathbf{\xi}}
+L(\mathbf{\omega},\gamma,\mathbf{\xi},\mathbf{\alpha},\mathbf{\beta})$,
+there are
+$$\begin{array}{ccccl}
+\frac{\partial L}{\partial \mathbf{\omega}} & = & 0 & \Rightarrow & \mathbf{\omega} = \sum\limits_{i=1}^{n}\alpha_iy_i\mathbf{x}_i \\
+\frac{\partial L}{\partial \gamma} & = & 0 & \Rightarrow & \sum\limits_{i=1}^{n}\alpha_iy_i = 0 \\
+\frac{\partial L}{\partial \xi_i} & = & 0 & \Rightarrow & \alpha_i + \beta_i = C, \forall i=1,\dots,n
+\end{array}
+$$
+
+So finally the values of parameters can be learned:
+\begin{align}
+\hat{\mathbf{\alpha}} &= \mathop{argmax}_\alpha\left[\sum\limits_{i=1}^{n}\alpha_i-\frac{1}{2}\sum\limits_{i,j=1}^{n}\alpha_i\alpha_jy_iy_j\mathbf{x}^T_i\mathbf{x}_j \right]
+\\
+\hat{\mathbf{\omega}} &= \sum\limits_{i=1}^{n}\hat{\alpha_i}y_i\mathbf{x}_i
+\\
+\hat{\gamma} &= y_i - \sum\limits_{j:\hat{\alpha}_i>0}\hat{\alpha}_iy_i\mathbf{x}_i^T\mathbf{x}_j
+\end{align}
 
 
 
