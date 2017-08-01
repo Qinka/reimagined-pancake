@@ -21,7 +21,120 @@
   Most of these algorithms will be instanced with Haskell, and most of them are applied to NAO robot.
   All the codes and this report are opend on GitHub, with GNU's
   \href{https://www.gnu.org/copyleft/gpl.html}{GPLv3+} license and GNU's
-  \href{https://www.gnu.org/licenses/quick-guide-gplv3.html}FDL.
+  \href{https://www.gnu.org/licenses/quick-guide-gplv3.html}{FDL}.
 \end{abstract}
+\section*{Copyleft}
+\label{sec:copyleft}
+
+All of these codes and documents are under GNU's GPLv3+ and FDLv1.3+. \\
+\huge{Copyleft (C) 2017 John Lee <me@qinka.pro> <qinka@live.com>} \\
+
+\paragraph{Notice for Codes}
+
+All the codes in the reimagined-pancake are under GPLv3+ license.
+
+Reimagined-Pancake is a serial toy about machine learning and NAO robot.
+Copyright (C) 2017 John Lee <me@qinka.pro> <qinka@live.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see \href{http://www.gnu.org/licenses}{<http://www.gnu.org/licenses/>}.
+
+\paragraph{Notice for Documents and Reports}
+
+In reimagined-pancake, all the documents(not including the one in the codes), reports and other texts,
+are under the GNU's FDLv1.3+ license.
+
+This report is a summary, or say a report about the machine.
+
+Copyright (C)  2017 John Lee <me@qinka.pro> <qinka@live.com>
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled "GNU
+Free Documentation License".
+
+You should have received a copy of the GNU Free Documentation License
+along with this program.  If not, see \href{http://www.gnu.org/licenses}{<http://www.gnu.org/licenses/>}.
+
+\section{Decision Tree}
+\label{sec:decisiontree}
+
+For the first algorithm about machine learning, let's talk about decision tree.
+
+The decision tree is just like a state machine or flow chart, and it is a like of decision support tool
+by using a tree-like graph or model to help people make decision, while it can also help machine.
+
+The way it works is that in the each node, there is a if-condition, and when it's true it will move to
+one of sub-node. When it's false, it will move to another sub-node. When it moves to the end-node,
+that means there is a decision which we can make.
+
+For example, if you want to know whether you need to take an umbrella, the ``if-condition'' is
+whether it's raining outside. If the condiftion is true, you need to move to end-node, ``take an umbrella'',
+and if not, you need to move to the end-node, ``leave umbrella alone''.
+If it's drawn as a graph, it will likely be figure\ref{fig:dt:eg}.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[node distance=3cm,>=stealth',bend angle=20,auto]        
+    \tikzstyle{point}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+    \begin{scope}
+      \node[point](rain){Whether it's raining outside?};
+      \node[point](take){Take umbrella}
+      edge [pre] node {Raining} (rain);
+      \node[point](leave){Leave it alone}
+      edge [pre] node {Not raining} (rain);
+    \end{scope}
+  \end{tikzpicture}
+  \caption{The decision tree for example.}
+  \label{fig:dt:eg}
+\end{figure}
+
+\subsection{How Does Machine Learning?}
+\label{sec:dt:how}
+
+First of all, we need to know what entropy is.
+Then we will talk about ID3 algorithm to learning a decision tree.
+
+\subsubsection{Entropy}
+\label{sec:dt:how:entropy}
+
+Entropy was defined to represent the ``size'', or say amount of informations.
+Simply, it represent how many bit are needed to encode a serial of informations.
+The equation of the entropy is equation.\ref{eq:entroy}.
+\begin{equation}
+  \label{eq:entropy}
+  H(X) = - \sum\limit_xP(x)\log_2\left[P(x)\right]
+\end{equation}
+And that means the entropy will be larger when the variable's more uncertain.
+The unit of entropy is bit.
+
+For example, there is an asymmetrical coin. The probability of frontage is 0.8,
+while that of other size is 0.2.
+So the entropy is $H(X) = - 0.2\log_20.2 - 0.8\log_20.8 = 0.7219$.
+
+\subsubsection{ID3}
+\label{sec:dt:how:id3}
+
+When there are many attributes which can be used as ``if-condition'',
+we need to find out one of them as the node. So the information gain is defined.
+\begin{equation}
+  \label{eq:inforgain}
+  Gain(A) = Info(D) - Info_A(D)
+\end{equation}
+where $A$ means one of the attributes, and $Info$ means simply entropy.
+The $Info_A$ means 
+
 
 \end{document}
