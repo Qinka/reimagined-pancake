@@ -146,5 +146,10 @@ test
 *.synctex.gz
 *.toc
 
+# For bibtex
+report-blx.bib
+*.bbl
+*.blg
+*.run.xml
 # for data
 *.igndata

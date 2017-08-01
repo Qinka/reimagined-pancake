@@ -7,7 +7,8 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,matrix,plotmarks}
 \usepackage{xcolor}
-
+\usepackage[backend=bibtex]{biblatex} 
+\addbibresource{bib/machine-learning}
 
 %%% datas
 \begin{filecontents}{knn.1.igndata}
@@ -257,7 +258,7 @@ $$
 \mathbf{w} = \left[\begin{array}{c} w_1 \\ w_2 \\ \vdots \\ w_d \end{array}\right];
 h(\mathbf{x}) = sign\left(\mathbf{w}^T\mathbf{x}+b\right)
 $$
-It is, at the same times, also a optimization problem, and the model is:
+It is, at the same times, also a optimization problem, and the model\cite{svm1} is:
 \begin{equation}
 \label{eq:hyp:op}
 \begin{array}{rl}
@@ -271,7 +272,7 @@ It is, at the same times, also a optimization problem, and the model is:
 \label{sec:svm:how}
 
 The best way to find out that hyperplane is find the solution of that optimization problem.
-By using Lagrange multiplier method:
+By using Lagrange multiplier method\cite{GraphML1}:
 \begin{equation}
   \label{eq:lagrange-multiplier-method}
   L(\omega,\gamma,\xi,\alpha,\beta) =
@@ -280,4 +281,5 @@ By using Lagrange multiplier method:
 
 
 
+\printbibliography
 \end{document}
