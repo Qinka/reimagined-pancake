@@ -181,6 +181,35 @@ to classify.
   \caption{Example of k-NN classifcation, where k = 2}
   \label{fig:knn:eg}
 \end{figure}
+For example, in the figure \ref{fig:knn:eg}, when the $k=2$, the item should be same with white one.
+
+\subsection{How to learning?}
+\label{sec:knn:learning}
+
+The first step is computing the distances between item, which need to be classified, and training datas.
+The second step is finding out which class the most of k-nearest neighbors belong to.
+
+Normally, we can use \textbf{euclidean distance}, \textbf{cosine}, \textbf{correlation},
+or \textbf{manhattan distance} to measure the distance.
+
+\section{Support Vector Machine}
+\label{sec:svm}
+
+Support vector machines are supervised learning models. It's mainly used to classify,
+while it can also be use to regression analysis.
+The basic ideas of support vector machine are
+\begin{itemize}
+\item Mapping data to higher-dimensional linear-separable feature space
+\item Finding out the best hyperplane to split data
+\end{itemize}
+
+\subsection{Kernel Function}
+\label{sec:svm:kf}
+
+To map the samples to the feature space, there are many ways to do it.
+However, it is possible that samples are mapped to a infiniet-dimensional space.
+For example, we can use $\Phi(x)=(1,x,x^2,x^3,\dots)$
+
 
 
 \end{document}
