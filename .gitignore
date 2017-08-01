@@ -145,3 +145,6 @@ test
 *.pdf
 *.synctex.gz
 *.toc
+
+# for data
+*.igndata

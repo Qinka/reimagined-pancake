@@ -5,8 +5,25 @@
 \usepackage{amsmath}
 \usepackage{pgf}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,matrix}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,matrix,plotmarks}
 \usepackage{xcolor}
+
+
+%%% datas
+\begin{filecontents}{knn.1.igndata}
+    1  1
+    2  3
+    10 13
+    20 18
+    14 9
+\end{filecontents}
+\begin{filecontents}{knn.2.igndata}
+    10  1
+    20  3
+    1  13
+    2  18
+    1  9
+\end{filecontents}
 
 \title{The Summary of Machine Learning}
 \author{John Lee \\  me@qinka.pro \\ qinka@live.com}
@@ -150,11 +167,18 @@ So the basic idea of ID3 algorithm is
 
 K-Nearest Neighbor uses distence to classify. For an item, the k-nearest neighbors will be use
 to classify.
-
 \begin{figure}
   \centering
-
-  \caption{Example of k-NN classifcation}
+  \begin{tikzpicture}[only marks, y=.3cm,x=.3cm]
+  %axis
+  \draw (0,0) -- coordinate (x axis mid) (22,0);
+  \draw (0,0) -- coordinate (y axis mid) (0,22);
+  \draw plot[mark=*,mark options={fill=white}] file {knn.1.igndata};
+  \draw plot[mark=*] file {knn.2.igndata};
+  \draw plot[mark=square*, mark options={fill=white}] (10,10);
+  \draw [dashed] (10,10) circle [radius=5];
+  \end{tikzpicture}
+  \caption{Example of k-NN classifcation, where k = 2}
   \label{fig:knn:eg}
 \end{figure}
 
