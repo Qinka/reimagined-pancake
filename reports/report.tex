@@ -135,7 +135,14 @@ we need to find out one of them as the node. So the information gain is defined.
 \end{equation}
 where $A$ means one of the attributes, and $Info$ means simply entropy.
 The $Info_A$ means the average entropy for each range of age.
-The diff means 
+The difference means how many informations we can ``get'' if ``split'' by age.
 
+So the basic idea of ID3 algorithm is 
+\begin{quote}
+  For each node, find out which attribute's \textit{information gain} is the largest.
+  If there is not any attribute or all item in this node belongs to one class, this node is a end-node.
+  If there is a attribute's information gain is the largest, the tree will be split by this attribute.
+  And then do it again until we get all the end-node.
+\end{quote}
 
 \end{document}
