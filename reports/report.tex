@@ -220,8 +220,63 @@ the mapping function will be defined as
   \label{eq:mapping}
   f_\theta(\mathbf{x})=\sum\limits_{j=1}^{n}\theta K(\mathbf{x},\mathbf{x}_k)
 \end{equation}
+There are some popular kernel function:
+\begin{itemize}
+\item linear
+  \begin{equation}
+    \label{eq:kf:linear}
+    K(\mathbf{x}_i,\mathbf{x}_j) = \mathbf{x}_i^T\mathbf{x}_j
+  \end{equation}
+\item polynomial
+  \begin{equation}
+    \label{eq:kf:polynomial}
+    K(\mathbf{x}_i,\mathbf{x}_j) = \left(\gamma \mathbf{x}_i^T\mathbf{x}_j+r\right)^d,\gamma > 0
+  \end{equation}
+  %% 径向基函数
+\item radial basis function
+  \begin{equation}
+    \label{eq:kf:rbf}
+    K(\mathbf{x}_i,\mathbf{x}_j) = \exp{\left(-\gamma||\mathbf{x}_i-\mathbf{x}_j||^2\right)},\gamma > 0
+  \end{equation}
+\item sigmoid
+  \begin{equation}
+    \label{eq:kf:sigmoid}
+    K(\mathbf{x}_i,\mathbf{x}_j) = \tanh{\left(\gamma \mathbf{x}_i^T\mathbf{x}_j+r\right)}
+  \end{equation}
+\end{itemize}
+where $\gamma$,$r$, and $d$ are kernel parameters.
 
+\subsection{Hyperplane}
+\label{sec:svm:hyperplane}
 
+The hyperplane used to classify should have the largest distances to it's nearest training-data.
+
+So, one of model to represent hyperplane is:
+$$
+\mathbf{x} = \left[\begin{array}{c} x_1 \\ x_2 \\ \vdots \\ x_d \end{array}\right];
+\mathbf{w} = \left[\begin{array}{c} w_1 \\ w_2 \\ \vdots \\ w_d \end{array}\right];
+h(\mathbf{x}) = sign\left(\mathbf{w}^T\mathbf{x}+b\right)
+$$
+It is, at the same times, also a optimization problem, and the model is:
+\begin{equation}
+\label{eq:hyp:op}
+\begin{array}{rl}
+  \min\limits_{\mathbf{w},b,\mathbf{\xi}} & \frac{1}{2}\mathbf{w}^T\mathbf{w}+C\sum\limits_{i=1}^{l}\xi_i\\
+  \text{subject to} & y_i\left(\mathbf{w}^T\phi(\mathbf{x}_i)+b\right) \geq 1 - \xi_i,\\
+                                          & \xi_i \geq 0.
+\end{array}
+\end{equation}
+
+\subsection{How to learn?}
+\label{sec:svm:how}
+
+The best way to find out that hyperplane is find the solution of that optimization problem.
+By using Lagrange multiplier method:
+\begin{equation}
+  \label{eq:lagrange-multiplier-method}
+  L(\omega,\gamma,\xi,\alpha,\beta) =
+  \frac{1}{2}
+\end{equation}
 
 
 

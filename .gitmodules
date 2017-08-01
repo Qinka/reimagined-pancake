@@ -5,3 +5,6 @@
 [submodule "tensorflow"]
 	path = tensorflow
 	url = https://github.com/tensorflow/haskell.git
+[submodule "reports/bib"]
+	path = reports/bib
+	url = https://github.com/Qinka/qinka-bib.git
