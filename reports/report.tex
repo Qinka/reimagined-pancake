@@ -27,7 +27,7 @@
 \label{sec:copyleft}
 
 All of these codes and documents are under GNU's GPLv3+ and FDLv1.3+. \\
-\huge{Copyleft (C) 2017 John Lee <me@qinka.pro> <qinka@live.com>} \\
+{\large Copyleft (C) 2017 John Lee <me@qinka.pro> <qinka@live.com>} \\
 
 \paragraph{Notice for Codes}
 
@@ -81,7 +81,7 @@ one of sub-node. When it's false, it will move to another sub-node. When it move
 that means there is a decision which we can make.
 
 For example, if you want to know whether you need to take an umbrella, the ``if-condition'' is
-whether it's raining outside. If the condiftion is true, you need to move to end-node, ``take an umbrella'',
+whether it's raining outside. If the condition is true, you need to move to end-node, ``take an umbrella'',
 and if not, you need to move to the end-node, ``leave umbrella alone''.
 If it's drawn as a graph, it will likely be figure\ref{fig:dt:eg}.
 
@@ -90,11 +90,11 @@ If it's drawn as a graph, it will likely be figure\ref{fig:dt:eg}.
   \begin{tikzpicture}[node distance=3cm,>=stealth',bend angle=20,auto]        
     \tikzstyle{point}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
     \begin{scope}
-      \node[point](rain){Whether it's raining outside?};
-      \node[point](take){Take umbrella}
+      \node[point](rain){\vbox{\hbox{Whether it's}\hbox{raining outside?}}};
+      \node[point,below of=rain,left of=rain](take){Take umbrella}
       edge [pre] node {Raining} (rain);
-      \node[point](leave){Leave it alone}
-      edge [pre] node {Not raining} (rain);
+      \node[point,below of=rain,right of=rain](leave){Leave it alone}
+      edge [pre,right] node {Not raining} (rain);
     \end{scope}
   \end{tikzpicture}
   \caption{The decision tree for example.}
@@ -115,7 +115,7 @@ Simply, it represent how many bit are needed to encode a serial of informations.
 The equation of the entropy is equation.\ref{eq:entroy}.
 \begin{equation}
   \label{eq:entropy}
-  H(X) = - \sum\limit_xP(x)\log_2\left[P(x)\right]
+  H(X) = - \sum\limits_x P(x)\log_2\left[P(x)\right]
 \end{equation}
 And that means the entropy will be larger when the variable's more uncertain.
 The unit of entropy is bit.
