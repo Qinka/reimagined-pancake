@@ -41,7 +41,7 @@ In this section, the main topic is about ``handwritten numeral recognition'' wit
 \footnote{Short for Modified National Institue of Standards and Technology database.}
 
 
-The ``tasks'', or say layouts of recognition with convolution nerual network are included the following items:
+The ``tasks'', or say layouts of recognition with convolution neural network are included the following items:
 \begin{itemize}
 \item convolution
 \item hidden

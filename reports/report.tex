@@ -306,6 +306,76 @@ So finally the values of parameters can be learned:
 \end{align}
 
 
+\section{Nerual Network}
+\label{sec:nn}
+
+In deep learning, nerual networks is the important things.
+The neural network is a kind of ``model'' which can present how human's brain work.
+Human's brain is a high performance parallel computer, for people can deal with complex images\cite{NNnML1}.
+So some one%
+\footnote{Warren McCulloch and Walter Pitts(1943),\cite{McCulloch194}
+created model: artificial neural network.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[node distance=3cm,>=stealth',bend angle=20,auto]        
+    \tikzstyle{point}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+    \begin{scope}
+      \node[point](age){age};
+      \node[point,below of=age](smile){smile};
+      \node[point,below of=smile](gender){gender};
+      \node[point,right of=age](h1){}
+      edge [pre] node {} (age)
+      edge [pre] node {} (smile)
+      edge [pre] node {} (gender);
+      \node[point,below of=h1](h2){}
+      edge [pre] node {} (age)
+      edge [pre] node {} (smile)
+      edge [pre] node {} (gender);
+      \node[point,below of=h2](h3){}
+      edge [pre] node {} (age)
+      edge [pre] node {} (smile)
+      edge [pre] node {} (gender);
+      \node[point,right of=h1](y1){}
+      edge [pre] node {} (h1)
+      edge [pre] node {} (h2)
+      edge [pre] node {} (h3);
+      \node[point,right of=h2](y2){}
+      edge [pre] node {} (h1)
+      edge [pre] node {} (h2)
+      edge [pre] node {} (h3);
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Neural Network}
+  \label{fig:nn:eg:1}
+\end{figure}
+
+The figure \ref{fig:nn:eg:1} is an example for neural network.
+There are two main elements: node(neuro) and link(cynapes).
+When a serial of data ``passing-by'' a neuro, there are two events which will happen.
+
+Let $\mathbf{x}_i$ be the input of layer $i$ in the neural network, let $\mathbf{w}_i$
+be the weight of the cynapes between the layer $i$ and layer $i+1$,
+and let $\mathbf{b}_i$ be the biases for this layer's neuros.
+So the next level's input, or say this layer's output will be
+$$
+  O = \phi\left(\mathbf{x}_i\mathbf{w}_i + \mathbf{b}_i\right)
+$$
+where $\phi(\cdot)$ is an activation function, e.g. sigmoid function.
+With the inputs, the neural network can approximate the linear or -non-linear functions:
+\begin{equation}
+  \label{eq:nn:app}
+  \begin{array}{rcl}
+  f(\mathbf{x}) &=& ^nf_{\mathbf{w}_n,\mathbf{b}_n}(\mathbf{x}) \\
+  ^if_{\mathbf{w}_i,\mathbf{b}_i}(\mathbf{x}_{i+1}) &=& \phi\left(\mathbf{^{i-1}f_{\mathbf{w}_{i-1},\mathbf{b}_{i-1}}(x)}_i\mathbf{w}_i + \mathbf{b}_\right)
+\end{equation}
+
+\subsection{How Do Machines Learn?}
+\label{sec:nn:how}
+
+
+
+
 
 \printbibliography
 \end{document}
