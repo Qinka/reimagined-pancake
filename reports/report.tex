@@ -455,6 +455,24 @@ It is a little like Huffman coding. The basic idea is finding out the two neares
 For those points in the feature space, first step is finding out the nearest two points, and merge them to a class.
 Then do it again and again until there are only one class. 
 
+\section{Gradient Descent}
+\label{sec:gd}
+
+Gradient descent is an algorithm to find out the local minimum of a function. For those functions who have a local minimum,
+the ``point'', in the space, will be moved in the step of gradient.
+For a multi-variable function $F(\mathbf{x})$, which is defined and differentiable at the point $\mathbf{\alpha}$, 
+the fastest-decreases at point $\mathbf{\alpha}$ is at the direction of $-\nabla F(\mathbf{\alpha})$.
+And the next point in the space should be
+\begin{equation}
+	\label{eq:gd:next}
+	\mathbf{\alpha}^{n+1} = \mathbf{\alpha}^n - \eta\nabla F(\mathbf{\alpha}^n)
+\end{equation}
+In the machine learning, the $\gamma$ is called learning rate. When we computing the differential, the $\gamma$ usually is $\lim\limits_{x \rightarrow \infty} \frac{1}{x}$
+
+
+
+
+
 
 
 \printbibliography
