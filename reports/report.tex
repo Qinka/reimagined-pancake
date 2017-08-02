@@ -9,6 +9,7 @@
 \usepackage{xcolor}
 \usepackage[backend=bibtex]{biblatex} 
 \addbibresource{bib/machine-learning}
+\usepackage{leftidx}
 
 %%% datas5
 \begin{filecontents}{knn.1.igndata}
@@ -367,7 +368,8 @@ With the inputs, the neural network can approximate the linear or -non-linear fu
   \label{eq:nn:app}
   \begin{array}{rcl}
   f(\mathbf{x}) &=& ^nf_{\mathbf{w}_n,\mathbf{b}_n}(\mathbf{x}) \\
-  ^if_{\mathbf{w}_i,\mathbf{b}_i}(\mathbf{x}_{i+1}) &=& \phi\left(\mathbf{^{i-1}f_{\mathbf{w}_{i-1},\mathbf{b}_{i-1}}(x)}_i\mathbf{w}_i + \mathbf{b}_\right)
+  {}^if_{\mathbf{w}_i,\mathbf{b}_i}(\mathbf{x}) &=& \phi\left({}^{i-1}\mathbf{f}_{\mathbf{w}_{i-1},\mathbf{b}_{i-1}}(\mathbf{x})\mathbf{w}_i + \mathbf{b}_i\right)
+  \end{array}
 \end{equation}
 
 \subsection{How Do Machines Learn?}
