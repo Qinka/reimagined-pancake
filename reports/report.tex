@@ -469,6 +469,59 @@ And the next point in the space should be
 \end{equation}
 In the machine learning, the $\gamma$ is called learning rate. When we computing the differential, the $\gamma$ usually is $\lim\limits_{x \rightarrow \infty} \frac{1}{x}$
 
+For example, let $F(x_1,x_2)=w_1e^{w_2x_1}+w_3\ln(w_4+x_2)$. So the updating for $x_1$ and $ x_2$ will be 
+\begin{align*}
+x_1^{i+1} &= x_1^i - \eta\nabla F(x_1^i) &= x_1^i - \eta w_1w_2e^{2_2x_1} \\
+x_2^{i+1} &= x_2^i - \eta\nabla F(x_2^i) &= x_2^i -\eta w_3\frac{1}{w_4+x_2}
+\end{align*}
+
+\subsection{Stochastic Gradient Descent}
+\label{aec:gd:sgd}
+
+Stochastic gradient descent, SGD for short, use stochastic approximation in gradient descent optimization method.
+
+For example, when we use the gradient descent to regress a linear function $f(x) = wx+b$, and we have batches of training data.
+If your size of batch is about 100, and the loss function is
+\[
+\mathcal{l} = (\hat{(f)} - f)^2
+\]
+the updating for $w$ and $b$(using $|theta$ to present parameters) will be
+\[
+\tilde{\theta} = \theta - \frac{\eta}{m}\sum\limits_{i=1}{m}\nabla f_i(w)
+\]
+When the size of batch larger enough, about million, the size cost on computing will be much more.
+So the stochastic approximation method is imported to gradient descent. Though the direction of descent of each time is not
+the fastest one, but the SGD do speed up the solving
+\[
+\tilde{\theta} = \theta - \eta _i\nabla f_i(w_i)
+\]
+
+\subsection{Gradient Descent Optimization Algorithms}
+\label{sec:gd:gdoa}
+
+So in the following, we will outline some of the algorithms about gradient descent optimization. The main part of the following come from
+\cite{DBLP:journals/corr/Ruder16} and \cite{wikipedia:sgd}. However, I just want to given you a snapshot.
+
+\subsubsection{Momentum}
+\label{sec:gd:gdoa:momentum}
+
+The basic idea is that the updating in this time will include the ``information'', or say the descent of the last time.
+In other words, the ``descent'' is related to this time's gradient, and the last time's
+\[
+\theta_{i+1} = \theta_i - \eta\left(\gamma\nabla_{i-1}J(\theta_{i-1}) + \nabla_iJ(\theta_i)\right)
+\]
+where $\gamma$ is a fraction of last time's updating.
+
+\subsubsection{Nesterov Accelerated Gradient}
+\label{sec:gd:gdoa:nag}
+
+%% todo there are many gd should be talked about.
+
+\section{Cross Entropy}
+\label{sec:ce}
+
+
+
 
 
 
