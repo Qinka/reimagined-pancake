@@ -376,9 +376,84 @@ With the inputs, the neural network can approximate the linear or -non-linear fu
 \label{sec:nn:how}
 
 The way to learn $\hat{f}$ is using gradient descent and backpropagation.
+For a neural network $f(\cdot)$, its paramters include weight($\mathbf{w}_i$),
+and bias($\mathbf{b}_i$) for each neuro. So for each time of training, 
+let $\Delta$ be
+$$
+ f(\mathbf{x}_i) - \hat{f}(\mathbf{x}_i)
+$$
+and then for each layer's parameters the updatings can be worked out:
+\begin{align*}
+  \Delta w_{ij} = l{Err_jO_j} \\
+  \Delta b_{ij} = l{Err_j}
+\end{align*}
+where $Err_j$ is $O_j(1-O_j)(T_j-O_j)$(for output layer) or $O_j(1-O_j)\sum\limits_kErr_kw_{jk}$(for hidden layer).
 
-For a neural network $f(\cdot)$, its paramters include weight($\mathbf{w}_i$), and bias($\mathbf{b}_i$) for each
 
+\section{Linear Regression}
+\label{sec:lreg}
+
+For linear regression, there we use the gradient descent.
+For a linear model $y=\mathbf{w}\mathbf{x}+\mathbf{b}$, we use the following method to training.
+And we use the $\theta$ to present the $\mathbf{w}$ and $\mathbf{b}$.
+
+First, we need  to define the loss function
+\[
+loss_\theta = \alpha(\hat{y}_\theta - y)^2
+\]
+So the gradient is
+\begin{align*}
+\nabla &= \frac{\partial}{\partial \theta}loss_\theta
+       &= 2\alpha (\hat{y}_\theta -y)\cdot \frac{\partial}{\partial \theta}\left(\theta \mathbf{x} - y\right)
+       &= 2\alpha(\hat{y}_\theta -y)\mathbf{x}
+\end{align*}
+where if let $\alpha$ be $\frac{1}{2}$, the $2$ will be divided out.
+Then we update the parameter $\theta$:
+\[
+\theta = \theta - \eta\nabla
+\]
+where the $\eta$ means the ratio of learning, and in other words, that means length of step.
+
+\subsection{Linear Learning}
+\label{sec:lreg:how}
+
+Now, we can learning parameters with the aboves method.
+If the $x$ is scalar, the $w$ and $b$ will also be scalar. If $\mathbf{x}$ is not scalar, or say is vector,
+we can just the $\phi(\cdot)$ to ``represent'' the more complex function.
+So the function will be 
+\[
+y(x) = \mathbf{w}\phi_n(x)
+\]
+If there is $\phi(x)_n = (1,x,x^2,\dots,x^n)^T$, that will polynomial one, and it also can be $\phi(x)_n = (1,\cos(x),\cos(2x),\dots,\cos(nx)^T$.
+And the regression will still be linear.
+
+\section{K-Means}
+\label{sec:kmeans}
+
+K-Means is an unsupervised clustering learning method. Its core idea is recompute a category's central point, in the feature map,  according
+to the old classification.
+
+\subsection{How does it work?}
+\label{sec:kmeans:how}
+
+There two status for learning machine: initialization, and new data passed in.
+For the initialization, the central point of classes, should be chosen well.
+When a new data coming in, we should do
+\begin{itemize}
+	\item Use old classification to classify the new data.
+	\item Use some method to compute new central point of each category, and recompute the class of each point.
+\end{itemize}
+
+\section{Hierarchical Clustering}
+\label{sec:hc}
+
+It is a little like Huffman coding. The basic idea is finding out the two nearest point in the feature space, and merge them to ``one'', and then redo.
+
+\subsection{How does it work?}
+\label{sec:hc:how}
+
+For those points in the feature space, first step is finding out the nearest two points, and merge them to a class.
+Then do it again and again until there are only one class. 
 
 
 
