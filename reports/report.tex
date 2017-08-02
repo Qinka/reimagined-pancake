@@ -10,6 +10,7 @@
 \usepackage[backend=bibtex]{biblatex} 
 \addbibresource{bib/machine-learning}
 \usepackage{leftidx}
+\usepackage{mathrsfs}
 
 %%% datas5
 \begin{filecontents}{knn.1.igndata}
@@ -86,6 +87,9 @@ Free Documentation License".
 
 You should have received a copy of the GNU Free Documentation License
 along with this program.  If not, see \href{http://www.gnu.org/licenses}{<http://www.gnu.org/licenses/>}.
+
+\section{Machine Learning}
+\label{sec:ml}
 
 \section{Decision Tree}
 \label{sec:decisiontree}
@@ -403,8 +407,8 @@ loss_\theta = \alpha(\hat{y}_\theta - y)^2
 \]
 So the gradient is
 \begin{align*}
-\nabla &= \frac{\partial}{\partial \theta}loss_\theta
-       &= 2\alpha (\hat{y}_\theta -y)\cdot \frac{\partial}{\partial \theta}\left(\theta \mathbf{x} - y\right)
+\nabla &= \frac{\partial}{\partial \theta}loss_\theta \\
+       &= 2\alpha (\hat{y}_\theta -y)\cdot \frac{\partial}{\partial \theta}\left(\theta \mathbf{x} - y\right) 5 \\
        &= 2\alpha(\hat{y}_\theta -y)\mathbf{x}
 \end{align*}
 where if let $\alpha$ be $\frac{1}{2}$, the $2$ will be divided out.
@@ -471,8 +475,8 @@ In the machine learning, the $\gamma$ is called learning rate. When we computing
 
 For example, let $F(x_1,x_2)=w_1e^{w_2x_1}+w_3\ln(w_4+x_2)$. So the updating for $x_1$ and $ x_2$ will be 
 \begin{align*}
-x_1^{i+1} &= x_1^i - \eta\nabla F(x_1^i) &= x_1^i - \eta w_1w_2e^{2_2x_1} \\
-x_2^{i+1} &= x_2^i - \eta\nabla F(x_2^i) &= x_2^i -\eta w_3\frac{1}{w_4+x_2}
+x_1^{i+1} &= x_1^i - \eta\nabla F(x_1^i) \\ &= x_1^i - \eta w_1w_2e^{2_2x_1} \\
+x_2^{i+1} &= x_2^i - \eta\nabla F(x_2^i) \\ &= x_2^i -\eta w_3\frac{1}{w_4+x_2}
 \end{align*}
 
 \subsection{Stochastic Gradient Descent}
@@ -483,7 +487,7 @@ Stochastic gradient descent, SGD for short, use stochastic approximation in grad
 For example, when we use the gradient descent to regress a linear function $f(x) = wx+b$, and we have batches of training data.
 If your size of batch is about 100, and the loss function is
 \[
-\mathcal{l} = (\hat{(f)} - f)^2
+\ell = (\hat{(f)} - f)^2
 \]
 the updating for $w$ and $b$(using $|theta$ to present parameters) will be
 \[
@@ -520,7 +524,17 @@ where $\gamma$ is a fraction of last time's updating.
 \section{Cross Entropy}
 \label{sec:ce}
 
+\section{Backpropagation}
+\label{sec:bp}
 
+\section{Softmax}
+\label{sec:softmax}
+
+\section{Overfitting}
+\label{sec:of}
+
+\section{Convolution Neural Network}
+\label{sec:cnn}
 
 
 
