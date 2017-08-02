@@ -120,9 +120,9 @@ commonModel :: TF.MonadBuild m
 commonModel batchSize l1 l2 l3 l4 = do
   images <- TF.placeholder [batchSize,numPixels,numPixels,1]
   let conv2D = TF.conv2D' ( (TF.opAttr "strides" .~ ([1,1,1,1] :: [Int64]))
+                          . (TF.opAttr "use_cudnn_on_gpu" .~ True)
                           . (TF.opAttr "padding" .~ ("VALID" :: B.ByteString))
                           . (TF.opAttr "data_format" .~ ("NHWC" :: B.ByteString))
-                          . (TF.opAttr "use_cudnn_on_gpu" .~ True)
                           ) 
       maxPool = TF.maxPool' ( (TF.opAttr "ksize"   .~ ([1,2,2,1] :: [Int64]))
                             . (TF.opAttr "strides" .~ ([1,2,2,1] :: [Int64]))
