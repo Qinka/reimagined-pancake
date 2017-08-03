@@ -211,7 +211,7 @@ train_mnist times sample label ts tl = TF.runSession $ do
     train model images labels
     when (i `mod` 100 == 0) $ do
       err <- errRt model images labels
-      liftIO $ putStrLn $ show (i `mod` 100) " ++ training error: " ++ show (err * 100) ++ "%\n"
+      liftIO $ putStrLn $ show (i `mod` 100)  ++ " training error: " ++ show (err * 100) ++ "%\n"
   let images = encodeImageBatch ts
       labels = encodeLabelBatch tl
   errTest <- errRt model images labels
