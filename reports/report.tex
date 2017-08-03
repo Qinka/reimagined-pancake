@@ -521,11 +521,37 @@ where $\gamma$ is a fraction of last time's updating.
 
 %% todo there are many gd should be talked about.
 
-\section{Cross Entropy}
-\label{sec:ce}
+\section{Cross Entropy Cost}
+\label{sec:cec}
+
+Cross entropy between probability distributions: $p$, and $q$, which is under the same set of events, measures the average
+the size of bits, which are needed to identify an event drawn from that set.
+The equation of the cross entropy for $p$ and $q$ as:
+\[
+H(p,q) = E_p\left[-\log{q}\right] = H(p) + D_{KL}(p\\parallel q)
+\] 
+where $H(\cdot)$ represents the entropy, and $D_{KL}(\cdot)$ is the Kullback-Leibler divergence%
+\footnote{ Kullback-Leibler divergence
+	\[
+	D_{KL}(p\parallel q) = \sum\limits_{x \in X}p(x)\log\frac{p(x)}{q(x)}
+	\]
+}
+
+For some reasons, the speed of learning with loss function $\ell = (\hat{y}-y)^2$ is not as fast as we wish.
+So we use the cross entropy lost function
+\[
+\ell = - y\ln{\hat{y}}-(1-y)\ln{(1-\hat{y})}
+\]
+The partial derivative of parameter $\theta$ for $\ell$ is 
+\[
+\frac{\partial \ell}{\partial \theta} = - \frac{y}{\hat{y}}\frac{\partial\hat{y}}{\partial\theta} + \frac{1-y}{1-\hat{y}}\frac{\partial\hat{y}}{\partial \theta}
+\] 
+Then we can use gradient descent to updating our parameters.
+
 
 \section{Backpropagation}
 \label{sec:bp}
+
 
 \section{Softmax}
 \label{sec:softmax}
