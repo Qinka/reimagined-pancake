@@ -535,7 +535,7 @@ where $H(\cdot)$ represents the entropy, and $D_{KL}(\cdot)$ is the Kullback-Lei
 	\[
 	D_{KL}(p\parallel q) = \sum\limits_{x \in X}p(x)\log\frac{p(x)}{q(x)}
 	\]
-}
+}.
 
 For some reasons, the speed of learning with loss function $\ell = (\hat{y}-y)^2$ is not as fast as we wish.
 So we use the cross entropy lost function
@@ -552,9 +552,49 @@ Then we can use gradient descent to updating our parameters.
 \section{Backpropagation}
 \label{sec:bp}
 
+The backpropagation algorithm is an important method to update artificial neural network's parameter. 
+
+For neural network's complex structure, using gradient descent some times is a trouble, because
+compute the gradient is not easy. So we use the backpropagation to compute.
+
+For a node $y$, which pass its output to ``next'' level as input,
+if let the weights of the ``passings'' to next level be $w_i$, the 
+loss of this node $\nabla y$ should be $\sum\limits_{i}w_i\nabla y$.
+Just like figure \ref{fig:bp:1}.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=20,auto]        
+    \tikzstyle{point}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+    \begin{scope}
+    \node[point](y){y};
+    \node[point,right of=y,above of=y](y1){$y_1$}
+    edge [pre] node {$w_1$} (y);
+    \node[point,right of=y](y2){$y_2$}
+    edge [pre] node {$w_2$} (y);
+    \node[point,right of=y,below of=y](y3){$y_3$}
+    edge [pre] node {$w_3$} (y);
+    \end{scope}
+    \end{tikzpicture}
+    \caption{Backpropagation}
+    \label{fig:bp:1}
+\end{figure}
+
 
 \section{Softmax}
 \label{sec:softmax}
+
+Softmax function is a generalization of the logistic function.
+The input of softmax is a K-dimensional vector $\mathbf{z}$,
+while the output, just as a logistic function, is a K-dimensional vector,
+which range from 0 to 1. More, the sum of output is 1.
+\begin{equation}
+\sigma(\mathbf{z})_j = \frac{e^{z_j}}{\sum_{k=1}^{K}e^{z_k}}
+\end{equation}
+where $i \in 1,2,\dots,K$.
+The softmax function can ``replace'' the sigmoid function in the neural network.
+
+
 
 \section{Overfitting}
 \label{sec:of}
