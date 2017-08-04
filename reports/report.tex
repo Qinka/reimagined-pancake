@@ -5,7 +5,7 @@
 \usepackage{amsmath}
 \usepackage{pgf}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,matrix,plotmarks}
+\usetikzlibrary{arrows,shapes,snakes,automata,backgrounds,petri,matrix,plotmarks,decorations.markings}
 \usepackage{xcolor}
 \usepackage[backend=bibtex]{biblatex} 
 \addbibresource{bib/machine-learning}
@@ -27,6 +27,13 @@
     2  18
     1  9
 \end{filecontents}
+
+
+\tikzstyle{arrow} = [ decoration={markings,mark=at position%
+	1 with {\arrow[scale=3,>=stealth]{>}}},%
+	double distance=1.5pt, black,shorten >= 3pt,%
+	preaction = {decorate,black},%
+	postaction = {draw,line width=2.5pt, black,shorten >= 3pt}]
 
 \title{The Summary of Machine Learning}
 \author{John Lee \\  me@qinka.pro \\ qinka@live.com}
@@ -90,6 +97,16 @@ along with this program.  If not, see \href{http://www.gnu.org/licenses}{<http:/
 
 \section{Machine Learning}
 \label{sec:ml}
+
+The machine learning is a serial of tasks to learning the unknown things with the known thing.
+The commonly way of machine learning is that we use the known data, or say training data, and model whose parameters are unknown,
+to predict those which we don't known well but will happen in the feature.  The core of learning is get the unknown parameters well.
+For example, there are some points, which fit the linear model $y = wx+b$, and our goal is learning the parameter $w$ and $b$.
+
+The machine learning mainly includes supervised classification, supervised regression, and unsupervised clustering.
+For supervised classification, decision tree, knn, support vector machine, neural network are commonly used.
+For supervised regression, support vector machine, ordinary least squares, are commonly used.
+For unsupervised clustering, the k-means, and hierarchical clustering are commonly used.
 
 \section{Decision Tree}
 \label{sec:decisiontree}
@@ -595,18 +612,58 @@ where $i \in 1,2,\dots,K$.
 The softmax function can ``replace'' the sigmoid function in the neural network.
 
 
-
 \section{Overfitting}
 \label{sec:of}
 
-\section{Convolution Neural Network}
+When we try to fit our model to the training data, there are kinds of ``xx-fitting''. One is underfitting, and another is overfitting
+One example of underfitting  is using linear model to fit a non-linear data.
+This section will mainly talk about the overfitting. 
+
+Firstly, let $\varepsilon$ be the error or say noise for the data, and let $\delta$ be the ``change'' of the function fitted to data.
+So let's think about the $\varepsilon$ and $\delta$. When $\frac{\delta}{\varepsilon} \rightarrow 0$, we can say the error or noise of data has
+very a little or even no influence to the function. If it overfitting, $\frac{\delta}{\varepsilon}$ will be a constant number of even $\infty$.
+
+When the error or say noise has a obvious influence to function, the overfitting will happen.
+
+
+\section{Convolutional Neural Network}
 \label{sec:cnn}
 
+The convolutional neural network, CNN for short, is an important method and is widely used in the deep learning.
+CNN is mainly applied to analyzing the visual imagery. It can translate, or say transform, the images in  form of some color model, such as RGB,
+to a rich feature or informations.
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[scale = .5]
+		\fill[fill=yellow,draw=black] (0,0) -- (1,0) -- (1,10) -- (0,10) -- (0,0);
+		\fill[fill=yellow,draw=black] (1,0) -- (5,2) -- (5,12) -- (1,10) -- (1,0);
+		\fill[fill=yellow,draw=black] (0,10) -- (4,12) -- (5,12) -- (1,10) -- (0,10);
+		\draw[arrow] (2.5,5.5) -> (3.5,5.5);
+		\fill[fill=green,draw=black] (4,2) -- (6,2) -- (6,8) -- (4,8) -- (4,2);
+		\fill[fill=green,draw=black] (6,2) -- (8,3) -- (8,9) -- (6,8) -- (6,2);
+		\fill[fill=green,draw=black] (4,8) -- (6,9) -- (8,9) -- (6,8) -- (4,8);
+		\draw[arrow] (6.7,5.5) -> (7.6,5.5);
+		\fill[fill=red,draw=black] (7.9,3.5) -- (12,3.5) -- (12,7.5) -- (7.9,7.5) -- (7.9,3.5);
+		\fill[fill=red,draw=black] (12,3.5) -- (14,4.5) -- (14,8.5) -- (12,7.5);
+		\fill[fill=red,draw=black] (7.9,7.5) -- (9.9,8.5) -- (14,8.5) -- (12,7.5);
+	\end{tikzpicture}
+	\caption{The transformation of CNN}
+	\label{fig:cnn:trans1}
+\end{figure}
+Usually, CNN will transform the a 3-channel(for colors) image($h\times w$) into a multi-channel small image.
+For example, in figure \ref{fig:cnn:trans1}, the transformation increases the number of channel,
+but shrink the image's size. That can help us extract the informations and features of image.
 
-
+At the same time, a CNN layer includes
+\begin{description}
+	\item[Convolutional sublayer] This sublayer is the core of CNN. It do the convolution.
+	\item[Pooling sublayer] Simply to say, this sublayer help us to shrink the size of image.
+	\item[ReLU sublayber]  $f(x) = max(0,x)$
+\end{description}
 
 
 
 
 \printbibliography
+\lstlistoflistings
 \end{document}
