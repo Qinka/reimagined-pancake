@@ -1,6 +1,6 @@
 
-\section{K-Nearest Neighbor}
-\label{sec:knn}
+\subsubsection{K-Nearest Neighbor}
+\label{code:knn:code}
 \begin{code}
 {-# LANGUAGE RecordWildCards  #-}
 {-# LANGUAGE TypeOperators    #-}
@@ -22,8 +22,8 @@ In this section, the topic is about k-nearest neighbor algorithm.
 The basic idea of this algorithm is simple: find out the k-nearest neighbor of one point,
 and then label this point with its neighbors' label.
 
-\subsection{ADT}
-\label{sec:knn:adt}
+\subsubsection{ADT}
+\label{code:knn:adt}
 
 So the first thing is ``ADT''.
 \begin{code}
@@ -38,8 +38,8 @@ data KNNStore a b c = KNNStore
 deriveJSON defaultOptions ''KNNStore
 \end{code}
 
-\subsection{Prediction}
-\label{sec:knn:pd}
+\subsubsection{Prediction}
+\label{code:knn:pd}
 
 We use \lstinline|KNNStore| and data for prediction.
 

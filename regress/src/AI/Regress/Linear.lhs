@@ -1,3 +1,4 @@
+\begin{code}
 module AI.Regress.Linear
   ( fit
   ) where
@@ -11,3 +12,4 @@ fit times v xs' ys' =
       ys = replicate (length xs') v
       xy x y = [x,y]
   in fit'linear times 1 xs ys
+\end{code}

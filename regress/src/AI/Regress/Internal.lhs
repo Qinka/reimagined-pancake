@@ -1,3 +1,4 @@
+\begin{code}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedLists  #-}
 {-# LANGUAGE TemplateHaskell  #-}
@@ -29,3 +30,4 @@ fit'linear times v xs' ys' = TF.runSession $ do
   trainStep <- TF.minimizeWith TF.adam loss [w]
   replicateM_ times (TF.run trainStep)
   V.toList <$> (TF.run =<< TF.render (TF.cast $ TF.readValue w))
+\end{code}

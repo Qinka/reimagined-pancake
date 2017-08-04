@@ -1,6 +1,6 @@
 
-\section{Neural Network for Human Face Judger}
-\label{sec:nnfhfj}
+\subsubsection{Neural Network for Human Face Judger}
+\label{code:nn:fhfj}
 
 \begin{code}
 {-# LANGUAGE FlexibleContexts #-}
@@ -33,7 +33,7 @@ import           GHC.Stack
 \end{code}
 
 
-This module is for the ``nao_classify_server''. Here I use the neural network to classify
+This module is for the ``nao\_classify\_server''. Here I use the neural network to classify
 whether a human face is ``positive'' or ``negative''.
 
 This neural network has a hidden layer.

@@ -1,6 +1,6 @@
 
-\section{Decision Tree}
-\label{sec:dt}
+\subsubsection{Decision Tree}
+\label{sec:dt:code:dt}
 
 So in this section, the topic is about decision tree. The tree will be learning via ID3 algorithm.
 \begin{code}
@@ -78,7 +78,7 @@ partition set attr@Attr{..} = foldl (\m k -> Map.insertWith (++) k [] m) grouped
 For entropy
 \begin{equation}
   \label{eq:entropy}
-  entropy = \sum\limit_{i \in \{\text{has label i}\}} - \dot{p}_i * \log_2 \dot{p}_i
+  entropy = \sum\limits_{i \in \{\text{has label i}\}} - \dot{p}_i * \log_2 \dot{p}_i
 \end{equation}
 \begin{code}
 entropy :: (Ord b)

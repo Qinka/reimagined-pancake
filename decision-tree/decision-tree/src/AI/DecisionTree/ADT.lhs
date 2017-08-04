@@ -1,5 +1,5 @@
-\section{ADT}
-\label{sec:adt}
+\subsubsection{ADT}
+\label{sec:dt:code:adt}
 
 So first we will define the ADTs.
 

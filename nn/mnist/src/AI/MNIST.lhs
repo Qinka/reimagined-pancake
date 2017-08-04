@@ -1,6 +1,6 @@
 
-\section{Handwritten Numeral Recognition with MNIST}
-\label{sec:hnr}
+\subsubsection{Handwritten Numeral Recognition with MNIST}
+\label{code:mnist:hnr}
 
 \begin{code}
 {-# LANGUAGE FlexibleContexts  #-}
