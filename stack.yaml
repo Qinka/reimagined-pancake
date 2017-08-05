@@ -11,6 +11,7 @@ packages:
 - svm/Simple-SVM/bindings-svm
 - nn/neural-network
 - nn/mnist
+- nn/mnist-train
 - regress
 - tensorflow/tensorflow
 - tensorflow/tensorflow-core-ops

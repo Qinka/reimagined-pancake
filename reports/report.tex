@@ -173,7 +173,7 @@ If it's drawn as a graph, it will likely be figure\ref{fig:dt:eg}.
 \begin{figure}
   \centering
   \begin{tikzpicture}[node distance=3cm,>=stealth',bend angle=20,auto]        
-    \tikzstyle{point}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
+    \tikzstyle{point}=[rectangle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
     \begin{scope}
       \node[point](rain){\vbox{\hbox{Whether it's}\hbox{raining outside?}}};
       \node[point,below of=rain,left of=rain](take){Take umbrella}
@@ -197,7 +197,7 @@ Then we will talk about ID3 algorithm to learning a decision tree.
 
 Entropy was defined to represent the ``size'', or say amount of informations.
 Simply, it represent how many bit are needed to encode a serial of informations.
-The equation of the entropy is equation.\ref{eq:entroy}.
+The equation of the entropy is equation.\ref{eq:entropy}.
 \begin{equation}
   \label{eq:entropy}
   H(X) = - \sum\limits_x P(x)\log_2\left[P(x)\right]
@@ -259,9 +259,6 @@ The second step is finding out which class the most of k-nearest neighbors belon
 
 Normally, we can use \textbf{euclidean distance}, \textbf{cosine}, \textbf{correlation},
 or \textbf{manhattan distance} to measure the distance.
-
-\subsection{Example of Codes}
-\label{sec:knn:code}
 
 \section{Support Vector Machine}
 \label{sec:svm}
@@ -419,8 +416,8 @@ $$
 $$
 and then for each layer's parameters the updatings can be worked out:
 \begin{align*}
-  \Delta w_{ij} = l{Err_jO_j} \\
-  \Delta b_{ij} = l{Err_j}
+  \Delta w_{ij} &= l{Err_jO_j} \\
+  \Delta b_{ij} &= l{Err_j}
 \end{align*}
 where $Err_j$ is $O_j(1-O_j)(T_j-O_j)$(for output layer) or $O_j(1-O_j)\sum\limits_kErr_kw_{jk}$(for hidden layer).
 
@@ -445,7 +442,7 @@ So the gradient is
 where if let $\alpha$ be $\frac{1}{2}$, the $2$ will be divided out.
 Then we update the parameter $\theta$:
 \[
-\theta = \theta - \eta\nabla
+\theta = \theta - \eta\nabla_\theta
 \]
 where the $\eta$ means the ratio of learning, and in other words, that means length of step.
 
@@ -518,7 +515,7 @@ Stochastic gradient descent, SGD for short, use stochastic approximation in grad
 For example, when we use the gradient descent to regress a linear function $f(x) = wx+b$, and we have batches of training data.
 If your size of batch is about 100, and the loss function is
 \[
-\ell = (\hat{(f)} - f)^2
+\ell = (\hat{f} - f)^2
 \]
 the updating for $w$ and $b$(using $|theta$ to present parameters) will be
 \[
@@ -594,7 +591,7 @@ m_t &= \beta_1m_{t-1}+(1-\beta_1)g_t \\
 v_t &= \beta_2v_{t-1} + (1-\beta_2)g_t^2 \\
 \hat{m}_t &= \frac{m_t}{1-\beta^t_1} \\
 \hat{t}_t &= \frac{v_t}{1-\beta_2^2} \\
-\theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon}
+\theta_{t+1} &= \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon}\hat{m}_t
 \end{align*}
 
 \subsubsection{AdaMax}
@@ -654,7 +651,7 @@ Just like figure \ref{fig:bp:1}.
 
 \begin{figure}
     \centering
-    \begin{tikzpicture}[node distance=2cm,>=stealth',bend angle=20,auto]        
+    \begin{tikzpicture}[node distance=1.7cm,>=stealth',bend angle=20,auto]        
     \tikzstyle{point}=[circle,thick,draw=blue!75,fill=blue!20,minimum size=6mm]
     \begin{scope}
     \node[point](y){y};
@@ -734,6 +731,7 @@ At the same time, a CNN layer includes
 	\item[ReLU sublayber]  $f(x) = max(0,x)$
 \end{description}
 
+The training with $500000$ times has the $3.23\%$ error rate.
 
 \section{Toy for NAO Robot}
 \label{sec:nao}
@@ -940,9 +938,8 @@ similar to  track's.
 	\end{center}
 	
 	
+	\printbibliography
+	\tableofcontents
 \end{appendix}
 
-
-\printbibliography
-\tableofcontents
 \end{document}
