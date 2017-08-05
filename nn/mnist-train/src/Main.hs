@@ -4,9 +4,11 @@ module Main where
 import           AI.MNIST
 import           AI.MNIST.Parse
 import           System.Environment
+import           System.IO
 
 main :: IO ()
 main = do
+  let put x = hPutStrLn stderr x >> hPutStrLn stdout x
   path'prefix:outfile:times:_ <- getArgs
   s  <- readMNISTSamples $ path'prefix ++ "train-images-idx3-ubyte.gz"
   l  <- readMNISTLabels  $ path'prefix ++ "train-labels-idx1-ubyte.gz"

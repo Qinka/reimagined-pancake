@@ -197,8 +197,8 @@ createTrainModel = do
                                  <*> trans b4
                     }
                                                
-train_mnist :: Int -> [MNIST] -> [Word8] -> [MNIST] -> [Word8] -> IO ModelParams
-train_mnist times sample label ts tl = TF.runSession $ do
+train_mnist :: Int -> [MNIST] -> [Word8] -> [MNIST] -> [Word8] -> (String -> IO ()) -> IO ModelParams
+train_mnist times sample label ts tl put = TF.runSession $ do
   let times' = times `div` 100
   model <- TF.build createTrainModel
   let encodeImageBatch xs = TF.encodeTensorData [genericLength xs, numPixels, numPixels,1]
@@ -212,7 +212,7 @@ train_mnist times sample label ts tl = TF.runSession $ do
     train model images labels
     when (i `mod` 100 == 0) $ do
       err <- errRt model images labels
-      liftIO $ putStrLn $ show (i `div` 100)  ++ "/" ++ show times' ++  " training error: " ++ show (err * 100) ++ "%\n"
+      liftIO $ put $ show (i `div` 100)  ++ "/" ++ show times' ++  " training error: " ++ show (err * 100) ++ "%\n"
   let images = encodeImageBatch ts
       labels = encodeLabelBatch tl
   errTest <- errRt model images labels
