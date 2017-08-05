@@ -14,5 +14,11 @@ regress :: Regress -> [Float] -> [Float] -> IO [Float]
 regress _ yaws pitches = do
   print yaws
   print pitches
-  w'x:w'y:_ <- fit 1000 1 yaws pitches
-  return [w'x,w'y]
+  ws <- fit 1000 1 yaws pitches
+  if length ws > 1
+    then return [ws !! 0, ws !! 1]
+    else do
+    print ws
+    return []
+
+

@@ -11,5 +11,5 @@ fit times v xs' ys' =
   let xs = zipWith xy xs' ys'
       ys = replicate (length xs') v
       xy x y = [x,y]
-  in fit'linear times 1 xs ys
+  in fit'linear times 2 xs ys
 \end{code}
