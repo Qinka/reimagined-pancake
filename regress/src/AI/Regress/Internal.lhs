@@ -1,3 +1,6 @@
+\subsubsection{Multiple Linear Reression}
+\label{code:regress:mlr}
+
 \begin{code}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedLists  #-}
@@ -6,7 +9,6 @@
 module AI.Regress.Internal
   ( fit'linear
   ) where
-
 
 import           Control.Monad          (replicateM_)
 import           Control.Monad.IO.Class (liftIO)
@@ -19,7 +21,16 @@ import qualified TensorFlow.Minimize    as TF
 import qualified TensorFlow.Ops         as TF hiding (initializedVariable,
                                                zeroInitializedVariable)
 import qualified TensorFlow.Variable    as TF
+\end{code}
 
+This section is about the code which use the gradient descent to regress the multiple linear model.
+The model fitted is
+\[
+  b = \mathbf{w}\mathbf{x}
+\]
+
+The following codes is for regression. 
+\begin{code}
 fit'linear :: Int -> Int64 -> [[Float]] -> [Float] -> IO [Float]
 fit'linear times v xs' ys' = TF.runSession $ do
   let xs = TF.constant [genericLength xs',v] $ mconcat xs'

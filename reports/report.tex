@@ -81,7 +81,7 @@
 	postaction = {draw,line width=2.5pt, black,shorten >= 3pt}]
 
 \title{The Summary of Machine Learning}
-\author{John Lee \\  me@qinka.pro \\ qinka@live.com}
+\author{Johann Lee \\  me@qinka.pro \\ qinka@live.com}
 
 \begin{document}
 \maketitle
@@ -431,11 +431,11 @@ And we use the $\theta$ to present the $\mathbf{w}$ and $\mathbf{b}$.
 
 First, we need  to define the loss function
 \[
-loss_\theta = \alpha(\hat{y}_\theta - y)^2
+\ell_\theta = \alpha(\hat{y}_\theta - y)^2
 \]
 So the gradient is
 \begin{align*}
-\nabla &= \frac{\partial}{\partial \theta}loss_\theta \\
+\nabla &= \frac{\partial}{\partial \theta}\ell_\theta \\
        &= 2\alpha (\hat{y}_\theta -y)\cdot \frac{\partial}{\partial \theta}\left(\theta \mathbf{x} - y\right) 5 \\
        &= 2\alpha(\hat{y}_\theta -y)\mathbf{x}
 \end{align*}
@@ -732,6 +732,25 @@ At the same time, a CNN layer includes
 \end{description}
 
 The training with $500000$ times has the $3.23\%$ error rate.
+The graph of $10000$-time training's training error is figure \ref{fig:mnist:times}.
+\begin{figure}
+	\centering
+	\begin{tikzpicture}[ y=.1cm,x=.09cm]
+	\pgfmathsetmacro{\ticker}{0.125}
+	%axis
+	\draw[-latex] (-1,0) -- (102,0) node[right]{\tiny $times \times 100$};
+	\foreach \i/\texti  in {0,10,20,30,40,50,60,70,80,90,100} {  
+		\draw (\i,0) --(\i,\ticker) node[label=below:\texti]{};  
+	}
+	\foreach \j/\textj  in {5,10,15,20,25,30,35,40,45} {  
+		\draw (0,\j) --(\ticker,\j) node[label=left:\textj\%]{};  
+	} 
+	\draw[-latex] (-1,0) -- (-1,50) node[left]{\tiny $err\%$};
+	\draw plot file {mnist.data};
+	\end{tikzpicture}
+	\caption{Example of k-NN classifcation, where k = 2}
+	\label{fig:mnist:times}
+\end{figure}
 
 \section{Toy for NAO Robot}
 \label{sec:nao}
@@ -899,6 +918,212 @@ similar to  track's.
 	The package \verb|toy-backend-core| is main program, and package \verb|toy-backend-classify| is about the classification,
 	with the algorithms, and package \verb|toy-backend-regression| is about the regression.
 	
+	\subsection{Snapshot for codes}
+	\label{code:nao:snapshot}
+	
+	The figure \ref{fig:nao-classify} and the figure \ref{fig:nao-regress} are the chart(work-flow) of robot.
+	These chart define the action and reaction of the robot. 
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{nao-classify}
+		\caption{The classification-behavior chart of robot.}
+		\label{fig:nao-classify}
+	\end{figure}
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.7\linewidth]{nao-regress}
+		\caption{The regression-behavior chart of robot.}
+		\label{fig:nao-regress}
+	\end{figure}
+	
+	The following codes is the programs which change the robot status or communication with server.
+	The official libraries do not provide these function, but they provide the way we use the python  coding.
+	The first listing is upload the data for classification.
+	\begin{lstlisting}[language=python]
+import urllib
+import urllib2
+
+class MyClass(GeneratedClass):
+	pAge    = False	
+	rAge    = 0
+	pSmile  = False
+	rSmile  = ""
+	pGender = False
+	rGender = ""
+
+	def __init__(self):
+		GeneratedClass.__init__(self)
+
+	def onLoad(self):
+		#put initialization code here
+		pass
+
+	def onUnload(self):
+		#put clean-up code here
+		pass
+	
+	def onInput_onStart(self):
+		#self.onStopped() #activate the output of the box
+		pass
+	
+	def onInput_onStop(self):
+		self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+		self.onStopped() #activate the output of the box
+
+	def onInput_smile(self, p):
+		self.rSmile = True
+		self.pSmile = True
+		self.upload()
+	
+	def onInput_nosmile(self, p):
+		self.rSmile = False
+		self.pSmile = True
+		self.upload()
+	
+	def onInput_age(self, p):
+		self.rAge = p
+		self.pAge = True
+		self.upload()
+	
+	def onInput_gender(self, p):
+		self.rGender = p
+		self.pGender = True
+		self.upload()
+	
+	def upload(self):
+		if (not self.pAge):
+			return
+		if (not self.pSmile):
+			return
+		if (not self.pGender):
+			return
+		self.pGender = False;
+		self.pSmile  = False;
+		self.pAge    = False;
+		if(self.rGender == "male"):
+			sg = "True"
+		else:
+			sg = "False"
+		url = "http://192.168.0.101:3000/classify?age="+str(self.rAge)+"&smile="+str(self.rSmile)+"&gender="+sg
+		req = urllib2.Request(url)
+		res_data = urllib2.urlopen(req)
+		if(res_data.read() == "true"):
+			self.hide(True)
+		else:
+			self.open(True)
+		res_data.close()
+	\end{lstlisting}
+	
+	The second listing is for regression to communication with backend.
+	\begin{lstlisting}[language=python]
+import urllib
+import urllib2
+import json
+	
+class MyClass(GeneratedClass):
+	pitches = ""
+	yaws    = ""
+	
+	def __init__(self):
+		GeneratedClass.__init__(self)
+		self.pitches = ''
+		self.yaws    = ''
+	
+	def onLoad(self):
+		#put initialization code here
+		pass
+	
+	def onUnload(self):
+		#put clean-up code here
+		pass
+	
+	def onInput_onStart(self):
+		#self.onStopped(p) #activate the output of the box
+		pass
+	
+	def onInput_onStop(self):
+		self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+		self.onStopped(p) #activate the output of the box
+	
+	def onInput_pitch(self, p):
+		if len(self.pitches) == 0:
+			self.pitches = self.pitches + ''
+		else:
+			self.pitches = self.pitches + '&'
+		self.pitches = self.pitches + 'pitch=' + str(p)
+	
+	def onInput_yaw(self, p):
+	if len(self.yaws) == 0:
+		self.yaws = self.yaws + ''
+	else:
+		self.yaws = self.yaws + '&'
+	self.yaws = self.yaws + 'yaw=' + str(p)
+	
+	def onInput_onSend(self):
+		url = 'http://192.168.0.101:3000/regress'
+		args = ''
+		if len(self.pitches) == 0:
+			if len(self.yaws) == 0:
+				args = args + ''
+			else:
+				args = args + '?' + self.pitches
+		else:
+			args = args + '?' + self.yaws + '&' + self.pitches
+		req = urllib2.Request(url+args)
+		res_data = urllib2.urlopen(req)
+		rt = json.loads(res_data.read())
+		res_data.close()
+		self.pitches = ''
+		self.yaws    = ''
+		self.onStopped(float(rt[0]))
+	\end{lstlisting}
+	
+	The third listing is for regression to move the robot's arm.
+	\begin{lstlisting}[language=python]
+import math
+	
+class MyClass(GeneratedClass):
+	def __init__(self):
+		GeneratedClass.__init__(self)
+		self.dcm = ALProxy('DCM')
+		print self.dcm
+	
+	def onLoad(self):
+		#put initialization code here
+		pass
+	
+	def onUnload(self):
+		#put clean-up code here
+		pass
+	
+	def onInput_onStart(self, p):
+		#self.onStopped() #activate the output of the box
+		if p is None:
+			return
+		if p == 0:
+			return
+		p = math.atan(1/p)
+		r = 0
+		l = 0
+		if p > 0:
+			r = -p
+			l = math.pi / 2.0
+		elif p == 0:
+			l =   math.pi / 2.0
+			r = - math.pi / 2.0
+		else:
+			l =   math.pi / 2.0 + p
+			r = - math.pi / 2.0
+			self.dcm.set(['Device/SubDeviceList/RShoulderRoll/Position/Actuator/Value','ClearAll',[[r,self.dcm.getTime(1000)]]])		
+			self.dcm.set(['Device/SubDeviceList/LShoulderRoll/Position/Actuator/Value','ClearAll',[[l,self.dcm.getTime(1000)]]])
+			self.onUnload()
+			self.onStopped(True)
+			def onInput_onStop(self):
+			self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+			self.onStopped() #activate the output of the box
+	\end{lstlisting}
+	
 	\section{Running Codes}
 	\label{apdx:run}
 	
@@ -925,6 +1150,8 @@ similar to  track's.
 	\label{run:toy}
 	
 	For some reasons, I can not open the sources of the client of robot. The \verb|Choregraphe Suite| of robot is unstable and can not export the design of workflow.
+	
+	
 	
 	\section{Community}
 	\label{aptx:commuity}
