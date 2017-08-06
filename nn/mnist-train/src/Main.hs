@@ -14,5 +14,5 @@ main = do
   l  <- readMNISTLabels  $ path'prefix ++ "train-labels-idx1-ubyte.gz"
   ts <- readMNISTSamples $ path'prefix ++  "t10k-images-idx3-ubyte.gz"
   tl <- readMNISTLabels  $ path'prefix ++  "t10k-labels-idx1-ubyte.gz"
-  x <- train_mnist (read times) s l ts tl
+  x <- train_mnist (read times) s l ts tl put
   writeFile outfile $ show x
