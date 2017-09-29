@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[twoside]{article}
 
 \usepackage{listings}
 \usepackage{hyperref}
@@ -15,6 +15,9 @@
 \usepackage{appendix}
 %% subfigure
 \usepackage{subfigure}
+
+\usepackage{xeCJK}
+\setCJKmainfont{Adobe Song Std}
 
 
 
@@ -81,9 +84,52 @@
 	postaction = {draw,line width=2.5pt, black,shorten >= 3pt}]
 
 \title{The Summary of Machine Learning}
-\author{Johann Lee \\  me@qinka.pro \\ qinka@live.com}
+\author{Johann Lee \\ 李约瀚 \\ 14130140331 \\  me@qinka.pro \\ qinka@live.com}
 
 \begin{document}
+\begin{titlepage}
+    \hbox{%
+    \Huge
+    \parbox{0.6\textwidth}{ 软件学院1314级 \\ 工程设计报告}
+    \parbox{0.4\textwidth}{%
+        \begin{tabular}{|c|c|}
+            \hline 
+            \Huge 成绩 &  \\ 
+            \hline 
+            \Huge 批阅人 &  \\ 
+            \hline 
+            \Huge 日期 & \Huge \,月\,日 \\ 
+            \hline 
+        \end{tabular} 
+        }
+    }
+    \vspace{4em}
+    \vbox{\noindent \Huge 题目：\underline{The Summary of Machine Learning} \\%
+         \hspace*{2.5em}\underline{(机器学习总结)}}
+    \vspace{4em}
+    \begin{center}
+        \huge\begin{tabular}{r@{：}c}
+            学号 & 14130140331 \\ 
+            \cline{2-2} 
+            姓名 & 李约瀚 \\ 
+            \cline{2-2} 
+            专业 & 软件工程 \\ 
+            \cline{2-2} 
+            指导教师 & 朱光明 \\ 
+            \cline{2-2} 
+            实习地点 & G520东 \\ 
+            \cline{2-2} 
+        \end{tabular} 
+    \end{center}
+    \vfill
+    \begin{center}
+        \huge
+        2017年9月29日
+    \end{center}
+\end{titlepage}
+    
+    
+    
 \maketitle
 \begin{abstract}
   This report is mainly about basic algorithms for machine learning,
