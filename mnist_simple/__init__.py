@@ -1,2 +1,3 @@
-from .model import Model
-from .train import train, get_mnist
+from .model_interface import ModelError, ModelInterface
+from .model import ModelBase,ModelWithDrop
+from .train import train_model, get_mnist
