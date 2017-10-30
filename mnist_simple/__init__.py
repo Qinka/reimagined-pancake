@@ -1,2 +1,2 @@
 from .model import Model
-from .train import train
+from .train import train, get_mnist
