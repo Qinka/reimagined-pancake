@@ -15,16 +15,16 @@ def train_model(Modeler,mnist,times=1000,batch_size=50,target='',args={},summary
         for i in range (times):
             batch = mnist.train.next_batch(batch_size)
             if i % 10 == 0:
-                acc = sess.run(m.accuracy,feed_dict = make_train_feed(m,batch,args))
-                summary = sess.run(merged,feed_dict = make_train_feed(m,batch,args))
+                acc,summary = sess.run([m.accuracy,merged],feed_dict = make_train_feed(m,batch,args))
                 summary_writer.add_summary(summary,i)
                 if i % 100 == 0:
                     print('%d: %g' % (i, acc))
             m.train_step.run(
                 feed_dict=make_train_feed(m,batch,args))
-        test_accuracy = m.accuracy.eval(
-            feed_dict = make_train_feed(m,[mnist.test.images,mnist.test.labels],args))
-        print('test accuracy %g' % test_accuracy)
+        acc, summary = sess.run([m.accuracy, merged],
+                                feed_dict=make_train_feed(m, [mnist.test.images,mnist.test.labels], args))
+        summary_writer.add_summary(summary,times)
+        print('test accuracy %g' % acc)
         summary_writer.close()
 
 def make_train_feed(m,batch,args={}):
