@@ -10,8 +10,10 @@ class ModelError(ValueError):
 class ModelInterface(object):
     def __init__(self):
         ## place holder
-        self.__images = tf.placeholder(tf.float32, shape=[None, 28 * 28], name='images')
-        self.__labels = tf.placeholder(tf.float32, shape=[None, 10], name='labels')
+        with tf.name_scope('images'):
+            self.__images = tf.placeholder(tf.float32, shape=[None, 28 * 28], name='images')
+        with tf.name_scope('labels'):
+            self.__labels = tf.placeholder(tf.float32, shape=[None, 10], name='labels')
         ## key
         self.__train_step = None
         self.__accuracy = None
