@@ -7,7 +7,7 @@ from mnist_simple import ModelInterface, ModelError
 
 class ModelBase(ModelInterface):
     def __init__(self):
-        super(ModelBase, self).__init__()
+        super().__init__()
         ## conv 1
         self.__w1 = self.weight_variable([5, 5, 1, 16])
         self.__b1 = self.bias_variable([16])
