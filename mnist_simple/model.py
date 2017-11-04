@@ -120,7 +120,8 @@ class ModelNormalA(ModelInterface):
 
     def init_model(self):
         with tf.name_scope('normal'):
-            imgs = tf.nn.batch_normalization(self.images,0,1,0,1,0.00001)
+            mean,variance = tf.nn.moments(self.images,[0])
+            imgs = tf.nn.batch_normalization(self.images,mean,variance,0,1,0.00001)
         with tf.name_scope('images'):
             imgs = tf.reshape(imgs,[-1,28,28,1])
         with tf.name_scope('conv1'):
