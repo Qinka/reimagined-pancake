@@ -20,7 +20,8 @@ class ModelBase(ModelInterface):
         with tf.name_scope('fc2'):
             self.__w4 = self.weight_variable([1024, 10])
             self.__b4 = self.bias_variable([10])
-
+    def get_variables(self):
+        return [self.__w1,self.__b1,self.__w2,self.__b2,self.__w3,self.__b3,self.__w4,self.__b4]
     def init_model(self):
         with tf.name_scope('images'):
             imgs = tf.reshape(self.images,[-1,28,28,1])
@@ -66,6 +67,8 @@ class ModelWithDrop(ModelInterface):
             self.__w4 = self.weight_variable([1024, 10])
             self.__b4 = self.bias_variable([10])
 
+    def get_variables(self):
+        return [self.__w1,self.__b1,self.__w2,self.__b2,self.__w3,self.__b3,self.__w4,self.__b4]
     def init_model(self):
         with tf.name_scope('images'):
             imgs = tf.reshape(self.images,[-1,28,28,1])
@@ -118,6 +121,8 @@ class ModelNormalA(ModelInterface):
             self.__w4 = self.weight_variable([1024, 10])
             self.__b4 = self.bias_variable([10])
 
+    def get_variables(self):
+        return [self.__w1,self.__b1,self.__w2,self.__b2,self.__w3,self.__b3,self.__w4,self.__b4]
     def init_model(self):
         with tf.name_scope('normal'):
             mean,variance = tf.nn.moments(self.images,[0])
@@ -166,6 +171,8 @@ class ModelWithDropExp(ModelInterface):
             self.__w4 = self.weight_variable([1024, 10])
             self.__b4 = self.bias_variable([10])
 
+    def get_variables(self):
+        return [self.__w1,self.__b1,self.__w2,self.__b2,self.__w3,self.__b3,self.__w4,self.__b4]
     def init_model(self):
         with tf.name_scope('images'):
             imgs = tf.reshape(self.images,[-1,28,28,1])

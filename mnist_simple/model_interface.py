@@ -26,7 +26,8 @@ class ModelInterface(object):
     def bias_variable(self,shape):
         initial = tf.constant(0.1,shape = shape)
         return tf.Variable(initial)
-
+    def get_variables(self):
+        pass
     def conv2D(self,x,W):
         return tf.nn.conv2d(x,W,strides=[1,1,1,1],padding='SAME')
     def max_pool(self,x, move=2):

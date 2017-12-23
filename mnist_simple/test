@@ -1,0 +1,1 @@
+ms.train_model(ms.ModelWithDrop,mnist,args={'keep_proimport b':0.5},summary_dir='.ignore/train/drop/sl',path='.ignore/saver/drop/sl')
