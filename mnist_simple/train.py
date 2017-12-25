@@ -5,11 +5,11 @@ import os
 from tensorflow.examples.tutorials.mnist import input_data
 from mnist_simple import ModelInterface
 
-def restore_reload_model(sess:tf.Session,path,m):
+def restore_reload_model(sess:tf.Session,path):
     d, f = os.path.split(path)
     if not os.path.exists(d):
         os.makedirs(d)
-    saver = tf.train.Saver(m.get_variables())
+    saver = tf.train.Saver()#m.get_variables())
     def signal_handler(signum, frame):
         if signum in [signal.SIGINT, signal.SIGABRT, signal.SIGKILL]:
             print('catch signal and store')
@@ -18,7 +18,8 @@ def restore_reload_model(sess:tf.Session,path,m):
     signal.signal(signal.SIGINT,signal_handler)
     signal.signal(signal.SIGABRT,signal_handler)
     #signal.signal(signal.SIGKILL,signal_handler)
-    if os.path.exists(path+'.data-00000-of-00001'):
+    print (saver.last_checkpoints)
+    if path in saver.last_checkpoints:
         print('restore')
         saver.restore(sess,path)
     return saver
@@ -33,6 +34,7 @@ def store_model(saver:tf.train.Saver,sess:tf.Session,path,step):
 def train_model(Modeler,mnist,times=1000,batch_size=50,target='',args={},summary_dir='.ignore/train',path='./model'):
     #if not issubclass(Modeler,model_interface.ModelInterface):
     #    raise model_interface.ModelError('Error Modeler'
+    tf.reset_default_graph()
     with tf.Session(target) as sess:
         m = Modeler()
         m.init_model()
