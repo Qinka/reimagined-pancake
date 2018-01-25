@@ -39,7 +39,7 @@ def train_model(Modeler,mnist,times=1000,batch_size=50,target='',args={},summary
         m = Modeler()
         m.init_model()
         sess.run(tf.global_variables_initializer())
-        saver = restore_reload_model(sess,path,m)
+        saver = restore_reload_model(sess,path)
         summary_writer = tf.summary.FileWriter(summary_dir,sess.graph)
         merged = tf.summary.merge_all()
         tf.summary.scalar('accuracy',m.accuracy)
